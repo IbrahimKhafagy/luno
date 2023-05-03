@@ -16,4 +16,10 @@ class Brand extends Model implements TranslatableContract
 
     public $translatedAttributes = ['name'];
     protected $fillable = ['image','name'];
+
+
+    public function getImagePathAttribute(){
+        return asset('storage/images/brands/' . $this->image) ;
+    }
 }
+

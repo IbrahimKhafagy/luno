@@ -19,12 +19,12 @@ class category extends Model implements TranslatableContract
 
     public function subcategory()
     {
-        return $this->hasMany(\App\Models\Category::class, 'parent_id');
+        return $this->hasMany(category::class, 'parent_id','id');
     }
 
     public function parent()
     {
-        return $this->belongsTo(\App\Models\Category::class, 'parent_id');
+        return $this->belongsTo(category::class, 'parent_id');
     }
 
 }

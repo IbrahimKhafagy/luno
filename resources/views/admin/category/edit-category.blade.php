@@ -26,26 +26,34 @@
                 <h6 class="card-title mb-0">Form Validation</h6>
             </div>
             <div class="card-body">
-                {{-- <form class="row g-3 basic-form" action="{{ route('update-category',$category->id) }}" method="post"
+                 <form class="row g-3 basic-form" action="{{ route('update-category',$category->id) }}" method="post"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="col-md-3">
                         <label class="form-label">name en: </label>
-                        <input type="text" value={{ $category->name }} name="name" class="form-control" required>
+                        <input type="text" value={{ $category->name }} name="name"  class="form-control @error('name')is-invalid @enderror" required>
+
+                                    @error('name')
+                                        <span class="invalid-feedback">{{$message}}</span>
+                                    @enderror
                     </div>
                     {{-- <div class="col-md-3">
                         <label class="form-label">name ar: </label>
                         <input type="text" name="name:ar" class="form-control" required>
                     </div> --}}
                     <p>
-                    {{-- <div class="col-md-3">
-                        <label class="form-label">description en: </label>
-                        <textarea type="text" {{ $category->description }} name="description" class="form-control" required></textarea>
-                    </div> --}}
                     <div class="col-md-3">
+                        <label class="form-label">description en: </label>
+                        <input type="text" value={{ $category->description }} name="description"  class="form-control @error('description')is-invalid @enderror" required>
+
+                                    @error('description')
+                                        <span class="invalid-feedback">{{ $message }}</span>
+                                    @enderror
+                    </div>
+                    {{-- <div class="col-md-3">
                         <label class="form-label">description ar: </label>
                         <input type="text" name="description:ar" class="form-control" required>
-                    </div>
+                    </div> --}}
                     <div>
                         <div class="col-md-6">
                             <label class="form-label">Parent ID: </label>
@@ -60,14 +68,18 @@
                     <div>
                         <div class="col-md-6">
                             <label class="form-label">Photo :</label>
-                            <input type="file" name="image" class="form-control" rows="5" cols="30"
-                                required></textarea>
+                            <input type="file" value="{{$category->image}}"  name="image" class="form-control @error('image')is-invalid @enderror" rows="5" cols="30"
+                                required>
+
+                                @error('image')
+                                <span class="invalid-feedback">{{ $message }}</span>
+                                @enderror
                         </div>
                     </div>
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary">update</button>
                     </div>
-                </form> --}}
+                </form>
             </div>
 
         </div>

@@ -49,13 +49,14 @@
                 <path class="var(--secondary-color)" fill-rule="evenodd"
                   d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
               </svg>
-              <span class="ms-2">Brands</span>
+              <span class="ms-2">Brands </span>
+            </span>
               <span class="arrow fa fa-angle-right ms-auto text-end"></span>
             </a>
 
             <ul class="sub-menu collapse show" id="my_dashboard">
               <li><a class="ms-link" href="{{route('create-brand')}}">Add brand</a></li>
-              <li><a class="ms-link" href="{{route('show')}}">brands</a> </li>
+              <li><a class="ms-link" href="{{route('show')}}">brands<span> /{{App\Models\Brand::count()}}</span></a> </li>
               {{-- <li><a class="ms-link" href="index-iot.html">IOT</a></li> --}}
             </ul>
           </li>
@@ -72,8 +73,8 @@
             </a>
 
             <ul class="sub-menu collapse" id="menu_dashboard">
-              <li><a class="ms-link" href="{{route('create-category')}}">create category</a></li>
-              <li><a class="ms-link" href="{{route('category')}}">categories</a></li>
+              <li><a class="ms-link" href="{{route('create-category')}}">Add category</a></li>
+              <li><a class="ms-link" href="{{route('category')}}">categories<span> /{{App\Models\Category::count()}}</span></a></li>
               {{-- <li><a class="ms-link" href="./ecommerce/index.html"></a></li> --}}
               {{-- <li><a class="ms-link" href="./event/index.html">Event Management</a></li>
               <li><a class="ms-link" href="./fitness/index.html">Fitness Analytics</a></li>
@@ -101,8 +102,8 @@
             </a>
 
             <ul class="sub-menu collapse" id="menu-Applications">
-              <li><a class="ms-link" href="{{route('create-product')}}">create product</a></li>
-               <li><a class="ms-link" href="{{route('product')}}">products</a></li>
+              <li><a class="ms-link" href="{{route('create-product')}}">Add product</a></li>
+               <li><a class="ms-link" href="{{route('product')}}">products<span> /{{App\Models\product::count()}}</span> </a></li>
               {{-- <li><a class="ms-link" href="app-email.html">Email App</a></li> --}}
             </ul>
           </li>

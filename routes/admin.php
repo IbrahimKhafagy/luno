@@ -2,6 +2,7 @@
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\HomeController;
+use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\productController ;
 use App\Http\Controllers\CategoryController as ControllersCategoryController;
@@ -27,7 +28,6 @@ Route::group(
     ], function(){
         // Route::get('/', function () {
         //     return view('admin.index');
-
 
             Route::get('/', function () {
                 return view('admin.auth.login');
@@ -64,23 +64,31 @@ Route::group(
             // Route::post('/edit/{id}',[BrandController::class,'edit'])->name('edit');
             Route::post('/update/{id}',[BrandController::class,'update'])->name('update-brand');
 
+
+
             Route::get('categories',[CategoryController::class,'index'])->name('category');
             Route::get('create',[CategoryController::class,'create'])->name('create-category');
             Route::post('store',[CategoryController::class,'store'])->name('store.category');
-
 
             Route::get('/edit/category/{id}',[CategoryController::class,'edit'])->name('edit.category');
             Route::get('destroy/category/{id}',[CategoryController::class,'destroy'])->name('destroy.category');
             Route::post('/category/{id}',[CategoryController::class,'update'])->name('update-category');
 
 
+
+
+
             Route::get('products',[ProductController::class,'index'])->name('product');
             Route::get('product/create',[ProductController::class,'create'])->name('create-product');
             Route::post('store/product',[productController::class,'store'])->name('store.product');
 
+            Route::get('edit/product/{id}',[productController::class,'edit'])->name('edit.product');
+            Route::get('destroy/product/{id}',[productController::class,'destroy'])->name('destroy.product');
+            Route::post('/product/{id}',[productController::class,'update'])->name('update-product');
 
 
 
-            Route::get('brands/all',[BrandController::class,'getUsersdatatabe'])->name('brands.all');
+            Route::get('brands/all',[BrandController::class,'getUsersdatatable'])->name('brands.all');
         });
+
 

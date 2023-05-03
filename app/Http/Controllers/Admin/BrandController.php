@@ -52,7 +52,7 @@ class BrandController extends Controller
                 'message' => 'error.',
                 'code' => 500
             ]);
-            // session()->flash('edit', 'تم التعديل بنجاح');
+
         }
 
 
@@ -126,7 +126,7 @@ class BrandController extends Controller
         // ]);
 
         session()->flash('edit', 'تم التعديل بنجاح');
-        return redirect()->route('show');
+        return redirect()->route('show')->with('message','Data added Successfully');
 
     }
 
@@ -139,36 +139,41 @@ class BrandController extends Controller
     $brand->delete();
 
     session()->flash('destroy', 'deleted sucssesfuly');
-    return redirect()->back();
+    return redirect()->back()->with('error','Data Deleted Successfully');
     }
 
 
-    public function getUsersdatatabe()
+    public function getUsersdatatable()
     {
-        // if (auth()->user()->can('viewAny', $this->user)) {
-        $data = Brand::select('*');
-        // }else{
-        //     $data = Brand::where('id' , auth()->user()->id);
-        // }
-        return   Datatables::of($data)
-            ->addIndexColumn()
-        //     ->addColumn('action', function ($row) {
-        //         $btn = '';
-        //         if (auth()->user()->can('update', $row)) {
-        //             $btn .= '<a href="' . Route('dashboard.users.edit', $row->id) . '"  class="edit btn btn-success btn-sm" ><i class="fa fa-edit"></i></a>';
-        //         }
-        //         if (auth()->user()->can('delete', $row)) {
-        //             $btn .= '
 
-        //                 <a id="deleteBtn" data-id="' . $row->id . '" class="edit btn btn-danger btn-sm"  data-toggle="modal" data-target="#deletemodal"><i class="fa fa-trash"></i></a>';
-        //         }
-        //         return $btn;
-        //     })
-        //     ->addColumn('status', function ($row) {
-        //         return $row->status == null ? __('words.not activated') : __('words.' . $row->status);
-        //     })
-        //     ->rawColumns(['action', 'status'])
-            ->make(true);
+
+        // old code
+        $data = Brand::with('translations')->newQuery();
+         return Datatables::of($data)
+
+        ->addIndexColumn()
+
+
+            ->addColumn('process', function ($row) {
+
+
+                $btn1='<a href="'. route('edit.brand',$row->id) .'" class="edit btn btn-success btn-sm" ><i class="fa fa-edit"></i></a>';
+
+
+                $btn2='<a href="'. route('destroy.brand',$row->id) .'" class="edit btn btn-danger btn-sm"  data-toggle="modal" data-target="#deletemodal" ><i class="fa fa-trash"></i></a>';
+
+
+            return $btn1 ."  ". $btn2;
+
+            })
+            ->addColumn('image', function ($row) {
+
+                return '<img src="' . $row->image_path . '" style="width: 150px;height:120px"/>' ;
+            })
+            ->rawColumns(['image'=>'image','process'=>'process'])
+            ->toJson();
+            //end old code
+
     }
 
 }

@@ -392,7 +392,7 @@
           </li>
 
           <li>
-            <div class="dropdown morphing scale-left user-profile mx-lg-3 mx-2">
+            <div class="dropdown morphing scale-right user-profile mx-lg-3 mx-2">
               <a class="nav-link dropdown-toggle rounded-circle after-none p-0" href="#" role="button"
                 data-bs-toggle="dropdown">
                 <img class="avatar img-thumbnail rounded-circle shadow" src="{{ asset('storage/Admin/images/users/'. Auth::user()->image) }}" alt="">

@@ -12,7 +12,7 @@
 <span class="fieldset-tile text-muted bg-body" > All Brands</span>
 <div class="card">
     <div class="card-body">
-            <table id="example1" class="table key-buttons text-md-nowrap"data-page-length='50'>
+            <table id="table_id" class="table key-buttons text-md-nowrap"data-page-length='50'>
                 <thead>
                     <tr>
                         <th class="border-bottom-0">#</th>
@@ -33,7 +33,7 @@
                         <td>{{$i}}</td>
                         <td>{{$cat->name}}</td>
                         <td>{{$cat->description}}</td>
-                        <td>{{$cat->parent_id == null ? 'Main' : $cat->parent->name }}</td>
+                        <td>{{$cat->parent_id == null ? 'Main Category' : $cat->parent?->name}}</td>
                         <td>
                             <img src="{{ asset('storage/images/categories/' . $cat->image) }}" style="width: 150px;height:120px" alt="">
                         </td>
@@ -57,5 +57,18 @@
             </table>
     </div>
 </div>
+
+@endsection
+
+
+@section('js')
+{{-- <script>
+    $(document).ready(function(){
+
+        $('#table_id2').dataTable({
+            processing:true,
+        });
+    });
+</script> --}}
 
 @endsection

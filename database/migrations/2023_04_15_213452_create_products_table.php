@@ -17,12 +17,13 @@ class CreateProductsTable extends Migration
             Schema::create('product', function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('image')->default('default.png');
-                $table->integer('category_id')->nullable();
+                $table->integer('category_id')->unsigned();
                 $table->double('price');
                 $table->boolean('have_offfer')->default('0');
-                $table->integer('discount');
+                // $table->integer('discount');
                 $table->double('finally_price');
                 $table->timestamps();
+                $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 

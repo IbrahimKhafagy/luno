@@ -17,7 +17,8 @@ class productController extends Controller
      */
     public function index()
     {
-        return view('admin.product.product');
+        $products = product::get();
+        return view('admin.product.product',compact('products'));
     }
 
     /**
@@ -27,7 +28,8 @@ class productController extends Controller
      */
     public function create()
     {
-        return view('admin.product.create-product');
+        $categories = category::get();
+        return view('admin.product.create-product',compact('categories'));
 
     }
 
@@ -39,19 +41,19 @@ class productController extends Controller
      */
     public function store(Request $request)
     {
-
+// dd($request->all());
         $request->validate([
             'name:ar' => 'required',
             'name:en' => 'required',
             'description:ar' => 'required',
             'description:en' => 'required',
-            'category_id' => 'nullable',
+            'category_id' => 'required',
             'image' => 'nullable|mimes:jpg,png',
             'price' => 'required',
             'have_offfer' => 'required',
         ]);
 
-        $data = $request->only('name:ar', 'name:en', 'description:ar', 'description:en', 'category_id','image','price','have_offfer');
+        $data = $request->only('name:ar', 'name:en', 'description:ar', 'description:en', 'category_id','image','price','have_offfer','finally_price');
 
         if ($request->hasFile('image')) {
             $destination = 'public/images/products';
@@ -61,10 +63,22 @@ class productController extends Controller
 
             $data['image'] = $image_name;
         }
-         product::create($data);
+        $product = product::create($data);
 
-        session()->flash('success', 'تم الحفظ  بنجاح');
-        return redirect()->back();
+
+         if($product) {
+            return response()->json([
+                'success' => 'Post created successfully.',
+                'code' => 200
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'error.',
+                'code' => 500
+            ]);
+        }
+        // session()->flash('success', 'تم الحفظ  بنجاح');
+        // return redirect()->back()->with('message','created succsessfully');
 
 
     }
@@ -88,7 +102,9 @@ class productController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = product::find($id);
+
+        return view('admin.product/edit-product',compact('product'));
     }
 
     /**
@@ -100,7 +116,25 @@ class productController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $product = product::findOrfail($id);
+
+
+        $data = $request->only('name','description','image','price','have_offfer','finally_price');
+
+
+        if($request->hasFile('image')){
+
+            $destination ='public/images/products';
+            $image = $request->file('image');
+            $image_name =$image ->getClientOriginalName();
+            $path=$request-> file('image')->storeAs($destination,$image_name);
+
+            $data['image']=$image_name;
+        }
+        $product->update($data);
+
+        return redirect()->route('product')->with('message','updated successfully');
+
     }
 
     /**
@@ -111,6 +145,19 @@ class productController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+
+        // return $id;
+
+
+        $product = product::find($id);
+        $product->delete();
+
+
+        // return response('Post deleted successfully.', 200);
+
+
+        // session()->flash('destroy', 'deleted sucssesfuly');
+        return redirect()->back()->with('errro','deleted sucssesfuly');
     }
 }

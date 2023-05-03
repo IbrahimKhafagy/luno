@@ -24,7 +24,7 @@ class CategoryController extends Controller
     }
     public function store(Request $request)
     {
-        
+
         $request->validate([
             'name:ar' => 'required',
             'name:en' => 'required',
@@ -44,10 +44,22 @@ class CategoryController extends Controller
 
             $data['image'] = $image_name;
         }
-         category::create($data);
+        $category = category::create($data);
 
-        session()->flash('edit', 'تم الحفظ  بنجاح');
-        return redirect()->back();
+         if($category) {
+            return response()->json([
+                'success' => 'Post created successfully.',
+                'code' => 200
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'error.',
+                'code' => 500
+            ]);
+
+        }
+        // session()->flash('edit', 'تم الحفظ  بنجاح');
+        // return redirect()->back();
     }
     public function edit($id)
     {
@@ -58,24 +70,28 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $category = category::findOrfail($id);
+
+
+        $data = $request->only('name','description','image');
+
         if($request->hasFile('image')){
 
-            $destination ='public/images/brands';
+            $destination ='public/images/categories';
             $image = $request->file('image');
             $image_name =$image ->getClientOriginalName();
             $path=$request-> file('image')->storeAs($destination,$image_name);
 
             $data['image']=$image_name;
         }
-        $category->update([
-            'name' => $request->name,
-            'description' => $request->description,
-            'parent_id' => $request->parent_id,
-            'image' => $request->image,
-        ]);
+        $category->update($data);
+            // 'name' => $request->name,
+            // 'description' => $request->description,
+            // 'parent_id' => $request->parent_id,
+            // 'image' => $request->image,
+
 
         session()->flash('edit', 'تم التعديل بنجاح');
-        return redirect()->route('category');
+        return redirect()->route('category')->with('message','updated successfully');
     }
     public function destroy($id)
     {
@@ -83,6 +99,6 @@ class CategoryController extends Controller
         $category->delete();
 
         session()->flash('destroy', 'deleted sucssesfuly');
-        return redirect()->back();
+        return redirect()->back()->with('error','deleted successfully');
     }
 }

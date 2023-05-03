@@ -94,7 +94,7 @@
 
                 });
 
-            });
+             });
 
 
                 function printErrorMsg(msg) {
@@ -134,6 +134,6 @@
                 // }
                 // })
 
-                <script>
+<script>
 
             @endsection

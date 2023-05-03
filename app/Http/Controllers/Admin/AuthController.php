@@ -83,12 +83,13 @@ class  AuthController extends Controller
         // dd($request->all());
         $data=$request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|unique:users',
             'image' => 'nullable|mimes:jpg,png',
 
         ]);
 
         $user= User::findOrFail(Auth::user()->id);
+
 
         if($request->image){
             Storage::delete('public/images/users'.$user->image);

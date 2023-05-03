@@ -26,6 +26,7 @@ Brands
                         <th class="border-bottom-0">Title</th>
                         <th class="border-bottom-0">Photo</th>
                         <th class="border-bottom-0">process</th>
+                        {{-- <th class="border-bottom-0">action</th> --}}
 
                     </tr>
                 </thead>
@@ -34,7 +35,7 @@ Brands
                     @foreach ($brands as $x)
 
                         <?php $i++ ?>
-                        <tr>
+                        {{-- <tr>
                         <td>{{$i}}</td>
                         <td>{{$x->name}}</td>
                         <td>
@@ -53,7 +54,7 @@ Brands
 
 
 
-                    </tr>
+                    </tr> --}}
 
                     @endforeach
                 </tbody>
@@ -63,25 +64,44 @@ Brands
 @endsection
 
 
-@section('js')
-{{-- <script>
-    $(document).ready(function(){
+@push('javascripts')
 
-        $('#table_id').datatable({
-            processing:true,
+<script type="text/javascript">
+    $(function() {
+        var table = $('#table_id').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ Route('brands.all') }}",
+            columns: [{
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'name',
+                    name: 'name'
+                },
+                {
+                    data: 'image',
+                    name: 'image'
+                }
+                ,{
+                    data: 'process',
+                    name: 'process'
+                }
+                // ,{
+                //     data: 'action',
+                //     name: 'action',
+                //     orderable: true,
+                //     searchable: true
+                // }
+            ]
         });
     });
-</script> --}}
-
- 
-
-<script>
-    $(document).ready(function(){
-
-        $('#table_id').dataTable({
-            processing:true,
-        });
-    });
+    $('#table_id tbody').on('click', '#deleteBtn', function(argument) {
+        var id = $(this).attr("data-id");
+        console.log(id);
+        $('#deletemodal #id').val(id);
+    })
 </script>
 
-@endsection
+@endpush()

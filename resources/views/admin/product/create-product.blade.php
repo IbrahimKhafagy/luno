@@ -15,34 +15,33 @@ create product
                 <h6 class="card-title mb-0">Form Validation</h6>
             </div>
             <div class="card-body">
-                <form class="row g-3 basic-form" action="{{ route('store.product') }}" method="post"
-                    enctype="multipart/form-data">
+                <form class="row g-3 basic-form"  id="form" enctype="multipart/form-data">
                     @csrf
                     <div class="col-md-3">
                         <label class="form-label">name en: </label>
-                        <input type="text" name="name:en" class="form-control" required>
+                        <input type="text" data-validation="required" data-validation-required="required" id="name:en" name="name:en" class="form-control" >
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">name ar: </label>
-                        <input type="text" name="name:ar" class="form-control" required>
+                        <input type="text" data-validation="required" data-validation-required="required" id="name:ar" name="name:ar" class="form-control" >
                     </div>
                     <p>
                     <div class="col-md-3">
                         <label class="form-label">description en: </label>
-                        <input type="text" name="description:en" class="form-control" required>
+                        <input type="text" data-validation="required" data-validation-required="required" id="description:en" name="description:en" class="form-control" >
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">description ar: </label>
-                        <input type="text" name="description:ar" class="form-control" required>
+                        <input type="text" data-validation="required" data-validation-required="required" id="description:ar" name="description:ar" class="form-control" >
                     </div>
                     <div>
                         <div class="col-md-6">
                             <label class="form-label">category ID: </label>
                             <select name="category_id" class="form-control show-tick ms">
                                 <option value="">Select Category</option>
-                                {{-- @foreach ($categories as $item)
+                                @foreach ($categories as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                @endforeach --}}
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -50,20 +49,80 @@ create product
                         <div class="col-md-6">
                             <label class="form-label">Photo :</label>
                             <input type="file" name="image" class="form-control" rows="5" cols="30"
-                                required></textarea>
+                                ></textarea>
                         </div>
 
-                        <div class="col-md-3">
+
+                        <div class="col-6">
+                            <label class="form-label">price</label>
+                            <input type="text" name="price" id="price" data-validation="required" data-validation-required="required"
+                                class="form-control form-control-lg @error('price') is-invalid @enderror" placeholder="Enter Price">
+                        </div>
+                        @error('price')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                        <div class="col-6">
+                            <label class="form-label">have offer</label>
+                            <select class="form-control show-tick ms select2 @error('have_offfer') is-invalid @enderror"
+                                id="have_offer" data-validation="required" data-validation-required="required" name="have_offfer" data-placeholder="Select">
+                                <option></option>
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                        @error('have_offfer')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                        <div id="offer_fields" style="display: none;">
+                            <div class="col-6">
+                                <label class="form-label">offer type</label>
+                                <select class="form-control show-tick ms select2 @error('offer_type') is-invalid @enderror"
+                                    name="offer_type" data-placeholder="Select" id="offer_type" data-validation="required" data-validation-required="required">
+                                    <option></option>
+                                    <option value="percentage">percentage</option>
+                                    <option value="value" selected>value</option>
+                                </select>
+                            </div>
+                            @error('offer_type')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <div class="col-6 mt-3">
+                                <label class="form-label">offer value</label>
+                                <input type="text" name="offer_value" value="0" id="offer_value" data-validation="required" data-validation-required="required"
+                                    class="form-control form-control-lg @error('offer_value') is-invalid @enderror"
+                                    placeholder="...">
+                            </div>
+                            @error('offer_value')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="col-6 mt-3">
+                            <label class="form-label">final price</label>
+                            <input type="text" name="finally_price" id="final_price2"  data-validation="required" data-validation-required="required"
+                                class="form-control form-control-lg @error('finally_price') is-invalid @enderror"
+                                placeholder="final price">
+                        </div>
+                        @error('finally_price')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        <p id="final_price"></p>
+
+
+
+
+
+
+                        {{-- <div class="col-md-3">
                             <label class="form-label">Price:</label>
-                            <input type="text" name="Price" class="form-control" rows="5" cols="30"
-                                required></textarea>
+                            <input type="text"  data-validation="required" data-validation-required="required" id="price" name="price" class="form-control" rows="5" cols="30"
+                                ></textarea>
                         </div>
                         <p></p>
                         <div class="col-md-3">
                             <label class="form-label">have offer</label>
-                            <select name="travel" id="travel" class="form-control show-tick ms" onChange=showHide() >
+                            <select name="have_offfer" id="travel" class="form-control show-tick ms" onChange=showHide() >
 
-                                required></textarea>
+                                ></textarea>
                                 <option value="1">yes</option>
                                 <option value="0">no</option>
                             </select>
@@ -71,11 +130,11 @@ create product
                         <p></p>
                         <div class="col-md-3"  name="hidden-panel" id="hidden-panel">
                             <label class="form-label">offer type</label>
-                            <select name="category_id" class="form-control show-tick ms"
+                            <select name="" class="form-control show-tick ms"
 
-                                required></textarea>
+                                ></textarea>
                                 <option value="">percentage</option>
-                                <option value="">offer value</option>
+                                <option value="">value</option>
                             </select>
 
                         <p></p>
@@ -85,10 +144,9 @@ create product
                     </div>
                         <div class="col-md-3">
                         <label class="form-label">Finally price</label>
-                        <input type="text" name="Price" class="form-control" rows="5" cols="30"
-                                required readonly>
-                    </div>
-                    </div>
+                        <input type="text" data-validation="required" data-validation-required="required" id="finally_price" name="finally_price" class="form-control" rows="5" cols="30">
+                    </div> --}}
+                    {{-- </div> --}}
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary">Create</button>
                     </div>
@@ -101,6 +159,52 @@ create product
 
 
 @section('js')
+
+
+<script type="text/javascript">
+    $.validate({
+        form: 'form'
+    });
+     $(document).ready(function() {
+    $("#form").submit(function(e) {
+    e.preventDefault();
+
+    let formData = new FormData(this);
+    // alert('jj');
+    $.ajax({
+        url: '{{route('store.product')}}',
+        type: 'POST',
+        dataType: "json",
+        data: formData,
+        contentType:false,
+        processData:false,
+        success: function(data) {
+            if ($.isEmptyObject(data.error)) {
+                alert('product created successfuly');
+                $('#form')[0].reset();
+                console.log(response);
+                } else {
+                    printErrorMsg(data.error);
+                }
+
+        }
+    });
+
+    });
+
+});
+
+
+    function printErrorMsg(msg) {
+        $(".print-error-msg").find("ul").html('');
+        $(".print-error-msg").css('display', 'block');
+        $.each(msg, function(key, value) {
+            $(".print-error-msg").find("ul").append('<li>' + value + '</li>');
+        });
+    }
+</script>
+
+
 <script>
 function showHide() {
     let travelhistory = document.getElementById('travel')
@@ -112,10 +216,7 @@ function showHide() {
 }
 </script>
 
-
-
-
-<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" > </script>
+{{-- <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" > </script> --}}
 <script>
     $(document).ready(function() {
         $("#travel").change(function() {
@@ -127,4 +228,81 @@ function showHide() {
         })
     });
 </script>
+
+<script>
+    var selectElement = document.getElementById("have_offer");
+    var offer_fields = document.getElementById("offer_fields");
+
+    selectElement.onchange = function() {
+        if (selectElement.value === "1") {
+            offer_fields.style.display = "block";
+        } else {
+            $('#offer_value').val(0);
+            offer_fields.style.display = "none";
+        }
+    }
+
+    /* change price */
+    var priceInput = document.getElementById("price");
+    var offerTypeSelect = document.getElementById("offer_type");
+    var offerValueInput = document.getElementById("offer_value");
+    var finalPriceParagraph = document.getElementById("final_price");
+
+    function calculateFinalPrice() {
+    var price = priceInput.value;
+    var offerType = offerTypeSelect.value;
+    var offerValue = offerValueInput.value;
+    var finalPrice;
+    if (offerType === "percentage") {
+        finalPrice = price - (price * offerValue / 100);
+    } else {
+        finalPrice = price - offerValue;
+    }
+    finalPriceParagraph.textContent = "Final Price: " + finalPrice;
+    $('#final_price2').val(finalPrice);
+    }
+    offerTypeSelect.addEventListener("change", calculateFinalPrice);
+    priceInput.addEventListener("input", calculateFinalPrice);
+    offerValueInput.addEventListener("input", calculateFinalPrice);
+</script>
+
+
+
+
+
+
+
+
+<script>
+    const name = document.getElementById('name:en')
+    const description = document.getElementById('description:en')
+    // const description = document.getElementById('price')
+    // const description = document.getElementById('finally_price')
+    // const password = document.getElementById('image')
+    const form = document.getElementById('form')
+    const errorElement = document.getElementById('error')
+
+    form.addEventListener('submit', (e) => {
+    let messages = []
+    if (name:en.value === '' || name:en.value == null) {
+    messages.push('Name is required')
+    }
+
+    // if (password.value.length <= 6) { messages.push('Password must be longer than 6 characters') } if
+    //     (password.value.length>= 20) {
+    //     messages.push('Password must be less than 20 characters')
+    //     }
+
+        // if (password.value === 'password') {
+        // messages.push('Password cannot be password')
+        // }
+
+        // if (messages.length > 0) {
+        // e.preventDefault()
+        // errorElement.innerText = messages.join(', ')
+        // }
+        // })
+
+<script>
+
 @endsection
