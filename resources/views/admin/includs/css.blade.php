@@ -4,6 +4,7 @@
 
   <script src="{{url('/')}}/admin/assets/js/plugins.js"></script>
 
+  <link rel="stylesheet" href="{{url('/')}}/admin/assets/cssbundle/dropify.min.css">
 
 
 

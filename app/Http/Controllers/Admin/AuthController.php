@@ -83,7 +83,7 @@ class  AuthController extends Controller
         // dd($request->all());
         $data=$request->validate([
             'name' => 'required',
-            'email' => 'required|unique:users',
+            'email' => 'required',
             'image' => 'nullable|mimes:jpg,png',
 
         ]);

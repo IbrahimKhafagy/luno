@@ -2,7 +2,7 @@
 
 
 @section('title' )
- Edit category
+ Edit Slider
 @endsection
 
 
@@ -28,7 +28,7 @@
             <div class="card-body">
                  <form class="row g-3 basic-form"  id="categoryFormUpdate" method="POST"  enctype="multipart/form-data">
                     @csrf
-                    <input type="text" name="category_id" value={{ $category->id }} style="display : none;" required>
+                    <input type="text" name="category_id" value={{ $slider->id }} style="display : none;" required>
                     {{-- <div class="col-md-3">
                         <label class="form-label">name en: </label>
                         <input type="text" value={{ $category->name }} name="name"  class="form-control @error('name')is-invalid @enderror" required>
@@ -63,42 +63,13 @@
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror
 
-
-
             @endforeach
-                    {{-- <div class="col-md-3">
-                        <label class="form-label">name ar: </label>
-                        <input type="text" name="name:ar" class="form-control" required>
-                    </div> --}}
-                    <p>
-                    {{-- <div class="col-md-3">
-                        <label class="form-label">description en: </label>
-                        <input type="text" value={{ $category->description }} name="description"  class="form-control @error('description')is-invalid @enderror" required>
 
-                                    @error('description')
-                                        <span class="invalid-feedback">{{ $message }}</span>
-                                    @enderror
-                    </div> --}}
-                    {{-- <div class="col-md-3">
-                        <label class="form-label">description ar: </label>
-                        <input type="text" name="description:ar" class="form-control" required>
-                    </div> --}}
-                    <div>
-                        <div class="col-md-6">
-                            <label class="form-label">Parent ID: </label>
-                            <select name="parent_id" class="form-control show-tick ms">
-                                <option value="">Select Category</option>
-                                @foreach ($categories as $item)
-                                    <option value="{{ $item->id }}" {{ $item->id == $category->parent_id ? 'selected' : '' }}>{{ $item->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
                     <div>
                         <div class="card">
                             <div class="card-body">
                               <h6>Photo :</h6>
-                              <input type="file" name="image" class="dropify" data-default-file="{{ asset('storage/images/categories/' . $category->image) }}">
+                              <input type="file" name="image" class="dropify" data-default-file="{{ asset('storage/images/sliders/' . $slider->image) }}">
                             </div>
                           </div>
                     </div>
@@ -111,38 +82,3 @@
         </div>
 
 @endsection
-
-@section('js')
-
-<script>
-
-    $(document).on('click', '#update_category', function (e) {
-        e.preventDefault();
-
-        var formData = new FormData($('#categoryFormUpdate')[0]);
-
-        $.ajax({
-            type: 'post',
-            enctype: 'multipart/form-data',
-            url: "{{route('update-category')}}",
-            data: formData,
-            processData: false,
-            contentType: false,
-            cache: false,
-            success: function (data) {
-
-                swal("Good job!", "Category updated successfuly!", "success");
-                if(data.status == true){
-                    $('#success_msg').show();
-                }
-
-
-            }, error: function (reject) {
-            }
-        });
-    });
-
-
-</script>
-@endsection
-

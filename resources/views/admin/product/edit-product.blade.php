@@ -16,14 +16,41 @@
                 <h6 class="card-title mb-0">Form Validation</h6>
             </div>
             <div class="card-body">
-                <form class="row g-3 basic-form" action="{{ route('update-product', $product->id) }}" method="post"
-                    enctype="multipart/form-data">
+                <form class="row g-3 basic-form" id="productFormUpdate" method="POST"  enctype="multipart/form-data">
+
                     @csrf
-                    <div class="col-md-3">
+                    <input type="text" name="product_id" value={{ $product->id }} style="display : none;" required>
+                    {{-- <div class="col-md-3">
                         <label class="form-label">name : </label>
                         <input type="text" value={{ $product->name }} data-validation="required" data-validation-required="required" id="name:en" name="name" class="form-control" >
-                    </div>
+                    </div> --}}
 
+                    @foreach (config('translatable.locales') as $locale)
+            <div class="col-6">
+                <label class="form-label">الاسم {{ $locale }}</label>
+                <input type="text" name="name:{{ $locale }}" id="name:{{ $locale }}" data-validation="required"
+                    data-validation-required="required"
+                    class="form-control form-control-lg @error('name:{{ $locale }}') is-invalid @enderror"
+                    value="{{ $product->translate($locale)->name }}" placeholder="...">
+            </div>
+            @error('name:{{ $locale }}')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+
+            <div class="col-6">
+                <label class="form-label">الوصف {{ $locale }}</label>
+                <input type="text" name="description:{{ $locale }}" id="name:{{ $locale }}" data-validation="required"
+                    data-validation-required="required"
+                    class="form-control form-control-lg @error('name:{{ $locale }}') is-invalid @enderror"
+                    value="{{ $product->translate($locale)->description }}" placeholder="...">
+            </div>
+            @error('name:{{ $locale }}')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+
+
+            @endforeach
+                    {{--
                     <p>
                     <div class="col-md-3">
                         <label class="form-label">description : </label>
@@ -42,28 +69,28 @@
                         </div>
                     </div>
                     <div>
-                        <div class="col-md-6">
-                            <label class="form-label">Photo :</label>
-                            <input  value={{$product->image }} type="file" name="image" class="form-control" rows="5" cols="30"
-                                ></textarea>
-                        </div>
 
-
+                        <div class="card col-6">
+                            <div class="card-body form-control form-control-lg" >
+                              <h6>Photo:</h6>
+                              <input type="file" name="image" class="dropify" data-default-file="{{ asset('storage/images/products/' . $product->image) }}">
+                            </div>
+                          </div>
+                          </div>
 
 
                         <div class="col-6">
                             <label class="form-label">price</label>
-                            <input type="text" name="price" id="price" value={{ $product->price}} data-validation="required" data-validation-required="required"
+                            <input  type="text" name="price" id="price" value={{ $product->price}} data-validation="required" data-validation-required="required"
                                 class="form-control form-control-lg @error('price') is-invalid @enderror" placeholder="...">
                         </div>
                         @error('price')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                        <div class="col-6">
+                        <div class="col-3">
                             <label class="form-label">have offer</label>
                             <select class="form-control show-tick ms select2 @error('have_offfer') is-invalid @enderror"
-                                id="have_offer" data-validation="required" data-validation-required="required" name="have_offfer" data-placeholder="Select">
-                                <option></option>
+                                id="have_offer" data-validation="required" value={{ $product->have_offfer}} data-validation-required="required" name="have_offfer" data-placeholder="Select">
                                 <option value="0">No</option>
                                 <option value="1">Yes</option>
                             </select>
@@ -142,12 +169,47 @@
                     </div>
                     </div> --}}
                     <div class="col-12">
-                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="submit" id="update_product" class="btn btn-primary">Update</button>
                     </div>
                 </form>
             </div>
 
 </div>
+@endsection
+
+@section('js')
+
+<script>
+
+    $(document).on('click', '#update_product', function (e) {
+        e.preventDefault();
+
+        var formData = new FormData($('#productFormUpdate')[0]);
+
+        $.ajax({
+            type: 'post',
+            enctype: 'multipart/form-data',
+            url: "{{route('update-product')}}",
+            data: formData,
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function (data) {
+
+                swal("Good job!", "Product updated successfuly!", "success");
+                if(data.status == true){
+                    $('#success_msg').show();
+                }
+
+
+            },
+            error: function (reject) {
+            }
+        });
+    });
+
+
+</script>
 @endsection
 
 
@@ -191,3 +253,5 @@
 </script>
 
 @endsection
+
+

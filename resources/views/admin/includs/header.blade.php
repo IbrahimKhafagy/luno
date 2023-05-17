@@ -392,7 +392,7 @@
           </li>
 
           <li>
-            <div class="dropdown morphing scale-right user-profile mx-lg-3 mx-2">
+            <div class="dropdown morphing @if (app()->getLocale() == 'ar') scale-right @endif scale-left user-profile mx-lg-3 mx-2">
               <a class="nav-link dropdown-toggle rounded-circle after-none p-0" href="#" role="button"
                 data-bs-toggle="dropdown">
                 <img class="avatar img-thumbnail rounded-circle shadow" src="{{ asset('storage/Admin/images/users/'. Auth::user()->image) }}" alt="">
@@ -403,7 +403,7 @@
                     <img class="avatar rounded-circle" src="{{asset('storage/Admin/images/users/' . Auth::user()->image) }}" alt="">
                     <div class="flex-fill ms-3">
                       <h6 class="card-title mb-0">{{Auth::user()->name}}</h6>
-                      <span class="text-muted"><a href="/cdn-cgi/l/email-protection" class="__cf_email__"
+                      <span class="text-muted"><a href="/cdn-cgi/l/email-protection"
                           data-cfemail="1d7c717174787a6f7c69786f5d71687372337e7270">{{Auth::user()->email}}</a></span>
                     </div>
                   </div>

@@ -2,13 +2,11 @@
 
 
 @section('title')
-    Add Category
+    Add Slider
 @endsection
 
 
-
 @section('content')
-
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -30,9 +28,6 @@
         </div>
     @endif
 
-
-
-
     <div id="list-item-1" class="card fieldset border border-muted mt-0">
 
         <span class="fieldset-tile"></span>
@@ -42,66 +37,55 @@
                     <h6 class="card-title mb-0">Form Validation</h6>
                 </div>
                 <div class="card-body">
-                    <form class="row g-3 basic-form" id="form" enctype="multipart/form-data">
+                    <div id="error"></div>
+                    <form class="row g-3 formvalidate" id="form" enctype="multipart/form-data">
                         @csrf
-                        <div class="col-md-3">
-                            <label class="form-label">name en: </label>
+                        <div class="col-md-6">
+                            <label for="name:en" class="form-label">Name en: </label>
                             <input type="text" data-validation="required" data-validation-required="required"
                                 id="name:en" name="name:en" class="form-control">
                         </div>
-                        <div class="col-md-3">
-                            <label class="form-label">name ar: </label>
+                        <div class="col-md-6">
+                            <label class="form-label">Name ar: </label>
                             <input type="text" data-validation="required" data-validation-required="required"
-                                id="name:ar" name="name:ar" class="form-control">
+                                id="name:en" name="name:ar" class="form-control">
                         </div>
                         <p>
-                        <div class="col-md-3">
-                            <label class="form-label">description en: </label>
-                            <input type="text" data-validation="required" data-validation-required="required"
-                                id="description:en" name="description:en" class="form-control">
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">description ar: </label>
-                            <input type="text" data-validation="required" data-validation-required="required"
-                                id="description:ar" name="description:ar" class="form-control">
-                        </div>
-                        <div>
                             <div class="col-md-6">
-                                <label class="form-label">Parent ID: </label>
-                                <select name="parent_id" class="form-control show-tick ms">
-                                    <option value="">Select Category</option>
-                                    @foreach ($categories as $item)
-                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endforeach
-                                </select>
+                                <label class="form-label">Description en: </label>
+                                <input type="text" data-validation="required" data-validation-required="required"
+                                    id="description:en" name="description:en" class="form-control">
                             </div>
-                        </div>
-                        <div>
                             <div class="col-md-6">
-                                {{-- <label class="form-label">Photo :</label>
-                                <input type="file" name="image" class="form-control" rows="5" cols="30"
-                                    ></textarea> --}}
+                                <label class="form-label">Description ar: </label>
+                                <input type="text" data-validation="required" data-validation-required="required"
+                                    id="description:ar" name="description:ar" class="form-control">
+                            </div>
+                            <P></P>
 
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h6>Photo :</h6>
-                                        <input type="file" name="image" class="dropify">
-                                    </div>
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6>Photo :</h6>
+                                    <input type="file" name="image" class="dropify">
                                 </div>
-
-
                             </div>
+
                         </div>
+                        </p>
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary">Create</button>
+                            <button type="submit" id="btn-submit" class="btn btn-primary">Create</button>
                         </div>
                     </form>
                 </div>
 
             </div>
-        @endsection
-        @section('js')
+@endsection
+
+@section('js')
             <script type="text/javascript">
+
+
                 $.validate({
                     form: 'form'
                 });
@@ -112,7 +96,7 @@
                         let formData = new FormData(this);
 
                         $.ajax({
-                            url: '{{ route('store.category') }}',
+                            url: '{{ route('create.slider') }}',
                             type: 'POST',
                             dataType: "json",
                             data: formData,
@@ -120,11 +104,12 @@
                             processData: false,
                             success: function(data) {
                                 if ($.isEmptyObject(data.error)) {
-                                    swal("Good job!", "created succsessfuly!", "success");
+                                    swal("Good job!", "Slider created succsessfuly!", "success");
+
                                     $('#form')[0].reset();
                                     console.log(response);
                                 }
-                            },
+                           },
                             error: function(data) {
                                 var errorText = '';
                                 if (data.responseJSON.hasOwnProperty('errors')) {
@@ -141,17 +126,9 @@
                     });
 
                 });
-
-
-
-
             </script>
-
-
-            <script>
+             <script>
                 const name = document.getElementById('name:en')
-                const description = document.getElementById('description:en')
-                // const password = document.getElementById('image')
                 const form = document.getElementById('form')
                 const errorElement = document.getElementById('error')
 
@@ -160,22 +137,6 @@
                             if (name: en.value === '' || name: en.value == null) {
                                 messages.push('Name is required')
                             }
-
-                            // if (password.value.length <= 6) { messages.push('Password must be longer than 6 characters') } if
-                            //     (password.value.length>= 20) {
-                            //     messages.push('Password must be less than 20 characters')
-                            //     }
-
-                            // if (password.value === 'password') {
-                            // messages.push('Password cannot be password')
-                            // }
-
-                            // if (messages.length > 0) {
-                            // e.preventDefault()
-                            // errorElement.innerText = messages.join(', ')
-                            // }
-                            // })
-
-                            
                             <script >
-                            @endsection
+
+@endsection

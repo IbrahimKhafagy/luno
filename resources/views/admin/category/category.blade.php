@@ -29,7 +29,7 @@
                     @foreach ($categories as $cat)
 
                         <?php $i++ ?>
-                        <tr>
+                        {{-- <tr>
                         <td>{{$i}}</td>
                         <td>{{$cat->name}}</td>
                         <td>{{$cat->description}}</td>
@@ -50,7 +50,7 @@
 
 
 
-                    </tr>
+                    </tr> --}}
 
                     @endforeach
                 </tbody>
@@ -60,15 +60,75 @@
 
 @endsection
 
+@push('javascripts')
 
-@section('js')
-{{-- <script>
-    $(document).ready(function(){
+<script type="text/javascript">
+    $(function() {
+        var table = $('#table_id').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ Route('category.all') }}",
+            columns: [{
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'name',
+                    name: 'name'
+                },
+                {
+                    data: 'description',
+                    name: 'description'
+                },
+                {
+                    data: 'parent_id',
+                    name: 'parent_id'
+                },
+                {
+                    data: 'image',
+                    name: 'image'
+                }
+                ,{
+                    data: 'process',
+                    name: 'process'
+                }
 
-        $('#table_id2').dataTable({
-            processing:true,
+            ]
         });
     });
-</script> --}}
+    $('#table_id tbody').on('click', '#deleteBtn', function(argument) {
+        var id = $(this).attr("data-id");
+        console.log(id);
+        $('#deletemodal #id').val(id);
+    })
+</script>
 
+@endpush()
+@section('js')
+    <script>
+        $(document).on('click', '.delete_btn', function(e) {
+            e.preventDefault();
+
+            var data_id = $(this).attr('category_id')
+            // alert(data_id);
+
+            if (confirm("Are you sure you want to delete this item?")) {
+                $.ajax({
+                    type: "POST",
+                    url: "{{route('delete.category')}}",
+                    data: {
+                        '_token': "{{ csrf_token() }}",
+                        'id':data_id
+                    },
+                    success: function(response) {
+                        swal("Good job!", "deleted succsessfuly!", "success");
+                        $('#table_id').DataTable().ajax.reload();
+                                        },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        swal("Error!", errorText, "error");
+                    }
+                });
+            }
+        });
+    </script>
 @endsection

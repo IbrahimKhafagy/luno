@@ -24,8 +24,8 @@ class ChangePasswordController extends Controller
     public function changePassword(Request $request)
     {
         $request->validate([
-            'current_password' => ['required','string','min:8'],
-            'password' => ['required', 'string', 'min:8', 'confirmed']
+            'current_password' => ['required'],
+            'password' => ['required', 'confirmed']
         ]);
 
         $currentPasswordStatus = Hash::check($request->current_password, auth()->user()->password);

@@ -81,6 +81,15 @@
                                     <span>Free access to our dashboard.</span>
                                 </div>
                                 <div class="col-12">
+                                    @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                    @endif
                                     <label class="form-label">Full name</label>
                                     <input type="text" name="name"
                                         class="form-control form-control-lg  @error('name')is-invalid @enderror"
@@ -132,6 +141,7 @@
                                         <button type="submit"
                                             class="btn btn-lg btn-block btn-dark lift text-uppercase">SIGN UP</button>
                                     </div>
+
                                     <div class="col-12 text-center mt-4">
                                         <span class="text-muted">Already have an account? <a href="/">Sign in
                                                 here</a></span>

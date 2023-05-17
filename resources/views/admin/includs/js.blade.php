@@ -8,19 +8,16 @@
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
 
+  <script src="{{url('/')}}/admin/assets/js/bundle/dropify.bundle.js"></script>
 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
+  <script>
+      $('.dropify').dropify();
 
-  {{-- <script>
-    $(document).ready(function(){
-
-        $('#table_id').dataTable({
-            processing:true,
-        });
-    });
-  </script> --}}
+  </script>
 
 
 @stack('javascripts')
@@ -28,6 +25,8 @@
 
   @yield('js')
   <script>
+    //   $('.dropify').dropify();
+
     // LUNO Revenue
     var options = {
       series: [{

@@ -27,4 +27,8 @@ class category extends Model implements TranslatableContract
         return $this->belongsTo(category::class, 'parent_id');
     }
 
+    public function getImagePathAttribute(){
+        return asset('storage/images/categories/' . $this->image) ;
+    }
+
 }

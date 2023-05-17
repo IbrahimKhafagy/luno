@@ -7,26 +7,17 @@ use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Model;
 
-class product extends Model implements TranslatableContract
+class slider extends Model implements TranslatableContract
 {
     use Translatable;
     // use HasFactory;
 
-    protected $table = 'product';
+    protected $table = 'slider';
 
     public $translatedAttributes = ['name','description'];
-    protected $fillable = ['name','description','image','category_id','price','have_offfer','finally_price'];
-
-
-    public function category()
-    {
-        return $this->belongsTo(\App\Models\category::class, 'category_id');
-    }
-
+    protected $fillable = ['name','description','image'];
 
     public function getImagePathAttribute(){
-        return asset('storage/images/products/' . $this->image) ;
+        return asset('storage/images/sliders/' . $this->image) ;
     }
-
-
 }

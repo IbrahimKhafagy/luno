@@ -66,15 +66,7 @@
                                 @csrf
 
 
-                                @if ($errors->any())
-                                    <div class="alert alert-danger">
-                                        <ul>
-                                            @foreach ($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
-                                    </div>
-                                @endif
+
 
                                 <div class="col-12 text-center mb-5">
                                     <h1>Sign in</h1>
@@ -84,9 +76,13 @@
                                 <div class="col-12">
                                     <div class="mb-2">
                                         <label class="form-label">Email address</label>
-                                        <input type="email" name="email" class="form-control form-control-lg"
+                                        <input type="email" data-validation="required" data-validation-required="required" name="email" class="form-control form-control-lg @error('email')is-invalid @enderror"
                                             placeholder="name@example.com">
+                                            @error('email')
+                                                 <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
                                     </div>
+
                                 </div>
                                 <div class="col-12">
                                     <div class="mb-2">
@@ -96,9 +92,15 @@
                                                     Password?</a>
                                             </span>
                                         </div>
-                                        <input id="password" name="password" class="form-control form-control-lg"
-                                            type="password" maxlength="10" placeholder="Enter the password">
+                                        <input id="password" name="password" class="form-control form-control-lg @error('password')is-invalid @enderror"
+                                            type="password" maxlength="10" data-validation="required" data-validation-required="required" placeholder="Enter the password">
+                                            @error('password')
+                                                 <span class="invalid-feedback">{{ $message }}</span>
+                                            @enderror
                                     </div>
+
+
+
                                 </div>
                                 <div class="col-12">
                                     <div class="form-check">
@@ -112,6 +114,15 @@
                                         class="btn btn-lg btn-block btn-dark lift text-uppercase">SIGN IN</button>
                                     {{-- <a class="btn btn-lg btn-block btn-dark lift text-uppercase" title="">SIGN IN</a> --}}
                                 </div>
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                    @endif
                                 <div class="col-12 text-center mt-4">
                                     <span class="text-muted">Don't have an account yet? <a
                                             href="{{ route('register') }}">Sign up here</a></span>

@@ -2,11 +2,9 @@
 
 
 
-        @section('title')
-
-        Profile
-
-        @endsection
+@section('title')
+    Profile
+@endsection
 
 
 
@@ -60,8 +58,7 @@
                             <span class="fieldset-tile text-muted bg-body">Profile Details:</span>
                             <div class="card">
                                 <div class="card-body">
-                                    <form action="{{ route('update') }}" method="POST"
-                                        enctype="multipart/form-data">
+                                    <form action="{{ route('update') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <div class="row mb-3">
                                             <label class="col-md-3 col-sm-4 col-form-label">Avatar</label>
@@ -116,36 +113,28 @@
                 </div>
                 <div id="list-item-2" class="card fieldset border border-muted mt-5">
 
-                    <span class="fieldset-tile text-muted bg-body" >Change Password</span>
+                    <span class="fieldset-tile text-muted bg-body">Change Password</span>
                     <div class="card">
                         <div class="card-body">
                             <div class="row g-3">
-                                <h6 class="border-top pt-2 mt-2 mb-3" value="{{old('password')}}">Change Password</h6>
-                                                @if (session('message'))
-                                    <h5 class="alert alert-success mb-2">{{ session('message') }}</h5>
-                                                 @endif
+                                <h6 class="border-top pt-2 mt-2 mb-3">Current Password</h6>
 
 
 
-                                                 @if ($errors->any())
-                                                 <ul class="alert alert-danger">
-                                                     @foreach ($errors->all() as $error)
-                                                     <li class="text-danger">{{ $error }}</li>
-                                                     @endforeach
-                                                 </ul>
-                                                 @endif
+                                <form action="{{ url('change-password') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+
+
+                                    @foreach ($errors->all() as $error)
+                                        <p class="text-danger">{{ $error }}</p>
+                                    @endforeach
+
+
+                                    <div class="col-12">
 
 
 
-                         <form action="{{ url('change-password') }}" method="POST">
-                                                     @csrf
-
-
-                                <div class="col-12">
-
-
-
-                                    {{-- <form method="POST" action="{{ route('change.password') }}">
+                                        {{-- <form method="POST" action="{{ route('change.password') }}">
                                         @csrf
 
                                          @foreach ($errors->all() as $error)
@@ -185,30 +174,37 @@
                                         </div>
                                     </form> --}}
 
-                                    <div class="mb-3">
-                                        <input type="password"  name="current_password" class="form-control form-control-lg"
-                                            placeholder="Current Password">
-                                    </div>
-                                    <div class="mb-1">
-                                        <label>New Password</label>
-                                        <input type="password" name="password" class="form-control form-control-lg"
-                                            placeholder="New Password">
-                                    </div>
-                                    <div>
-                                        <label>Confirm Password</label>
-                                        <input type="password" name="password_confirmation" class="form-control form-control-lg"
-                                            placeholder="Confirm New Password">
+                                        <div class="mb-3">
+                                            <input type="password"
+                                                name="current_password"
+                                                class="form-control form-control-lg @error('current_password')is-invalid @enderror"
+                                                placeholder="Current Password">
+                                        </div>
+                                        @error('current_password')
+                                            <span class="invalid-feedback">{{ $message }}</span>
+                                        @enderror
+
+
+                                        <div class="mb-1">
+                                            <label>New Password</label>
+                                            <input type="password" name="password" class="form-control form-control-lg"
+                                                placeholder="New Password">
+                                        </div>
+                                        <div>
+                                            <label>Confirm Password</label>
+                                            <input type="password" name="password_confirmation"
+                                                class="form-control form-control-lg" placeholder="Confirm New Password">
 
                                             <span class="text-muted small">Minimum 8 characters</span>
+                                        </div>
                                     </div>
-                                </div>
                             </div>
                         </div>
                         <div class="card-footer text-end">
                             <button class="btn btn-lg btn-light me-2" type="reset">Discard</button>
                             <button class="btn btn-lg btn-primary" type="submit">Save Changes</button>
                         </div>
-                    </form>
+                        </form>
                     </div>
                 </div>
                 <div id="list-item-3" class="card fieldset border border-muted mt-5">
@@ -358,8 +354,8 @@
                             </div>
                             <div class="modal-body custom_scroll">
                                 <ul class="nav nav-tabs tab-card border-0 fs-6" role="tablist">
-                                    <li class="nav-item flex-fill text-center"><a class="nav-link active"
-                                            href="#step1" data-bs-toggle="tab" data-bs-step="1">1. Project</a>
+                                    <li class="nav-item flex-fill text-center"><a class="nav-link active" href="#step1"
+                                            data-bs-toggle="tab" data-bs-step="1">1. Project</a>
                                     </li>
                                     <li class="nav-item flex-fill text-center"><a class="nav-link" href="#step2"
                                             data-bs-toggle="tab" data-bs-step="3">2. Team</a></li>
@@ -378,8 +374,7 @@
 
                                                 <div class="c_radio d-flex flex-md-wrap">
                                                     <label class="m-1 w-100" for="Personal">
-                                                        <input type="radio" name="plan" id="Personal"
-                                                            checked />
+                                                        <input type="radio" name="plan" id="Personal" checked />
                                                         <span class="card">
                                                             <span class="card-body d-flex p-3">
                                                                 <svg class="avatar" viewBox="0 0 16 16">
@@ -483,10 +478,10 @@
                                                 </div>
                                                 <h6 class="card-title mb-1">Team Members</h6>
                                                 <div class="form-check form-switch">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="list-group6" checked="">
-                                                    <label class="form-check-label text-muted"
-                                                        for="list-group6">Adding Users by Team Members</label>
+                                                    <input class="form-check-input" type="checkbox" id="list-group6"
+                                                        checked="">
+                                                    <label class="form-check-label text-muted" for="list-group6">Adding
+                                                        Users by Team Members</label>
                                                 </div>
                                             </div>
                                             <ul class="list-group list-group-flush list-group-custom custom_scroll mb-0"
@@ -600,8 +595,7 @@
                                             </ul>
                                         </div>
                                         <div class="text-center">
-                                            <button
-                                                class="btn btn-lg bg-secondary text-light next text-uppercase">Select
+                                            <button class="btn btn-lg bg-secondary text-light next text-uppercase">Select
                                                 Files</button>
                                         </div>
                                     </div>
@@ -660,8 +654,7 @@
                                             </ul>
                                         </div>
                                         <div class="text-center">
-                                            <button
-                                                class="btn btn-lg bg-secondary text-light next text-uppercase">Advanced
+                                            <button class="btn btn-lg bg-secondary text-light next text-uppercase">Advanced
                                                 Options</button>
                                         </div>
                                     </div>
@@ -705,8 +698,8 @@
                                             role="tab" aria-selected="true">All Notes</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" data-bs-toggle="tab" href="#Notetab-Business"
-                                            role="tab" aria-selected="false">Business</a>
+                                        <a class="nav-link" data-bs-toggle="tab" href="#Notetab-Business" role="tab"
+                                            aria-selected="false">Business</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" data-bs-toggle="tab" href="#Notetab-Social"
@@ -988,58 +981,58 @@
                                 <div class="nav flex-column nav-pills p-3 h-100">
                                     <a class="nav-link rounded-circle p-1 mb-2 active" href="javascript:void(0);"
                                         data-bs-toggle="pill" data-bs-target="#c-user-1" title="">
-                                        <img class="avatar sm rounded-circle border"
-                                            src="./assets/img/xs/avatar1.jpg" alt="avatar">
+                                        <img class="avatar sm rounded-circle border" src="./assets/img/xs/avatar1.jpg"
+                                            alt="avatar">
                                     </a>
                                     <a class="nav-link rounded-circle p-1 mb-2" href="javascript:void(0);"
                                         data-bs-toggle="pill" data-bs-target="#c-user-2" title="">
-                                        <img class="avatar sm rounded-circle border"
-                                            src="./assets/img/xs/avatar2.jpg" alt="avatar">
+                                        <img class="avatar sm rounded-circle border" src="./assets/img/xs/avatar2.jpg"
+                                            alt="avatar">
                                     </a>
                                     <a class="nav-link rounded-circle p-1 mb-2" href="javascript:void(0);"
                                         data-bs-toggle="pill" data-bs-target="#c-user-3" title="">
-                                        <img class="avatar sm rounded-circle border"
-                                            src="./assets/img/xs/avatar3.jpg" alt="avatar">
+                                        <img class="avatar sm rounded-circle border" src="./assets/img/xs/avatar3.jpg"
+                                            alt="avatar">
                                     </a>
                                     <a class="nav-link rounded-circle p-1 mb-2" href="javascript:void(0);"
                                         data-bs-toggle="pill" data-bs-target="#c-user-2" title="">
-                                        <img class="avatar sm rounded-circle border"
-                                            src="./assets/img/xs/avatar4.jpg" alt="avatar">
+                                        <img class="avatar sm rounded-circle border" src="./assets/img/xs/avatar4.jpg"
+                                            alt="avatar">
                                     </a>
                                     <a class="nav-link rounded-circle p-1 mb-2" href="javascript:void(0);"
                                         data-bs-toggle="pill" data-bs-target="#c-user-5" title="">
-                                        <img class="avatar sm rounded-circle border"
-                                            src="./assets/img/xs/avatar5.jpg" alt="avatar">
+                                        <img class="avatar sm rounded-circle border" src="./assets/img/xs/avatar5.jpg"
+                                            alt="avatar">
                                     </a>
                                     <a class="nav-link rounded-circle p-1 mb-2" href="javascript:void(0);"
                                         data-bs-toggle="pill" data-bs-target="#c-user-1" title="">
-                                        <img class="avatar sm rounded-circle border"
-                                            src="./assets/img/xs/avatar6.jpg" alt="avatar">
+                                        <img class="avatar sm rounded-circle border" src="./assets/img/xs/avatar6.jpg"
+                                            alt="avatar">
                                     </a>
                                     <a class="nav-link rounded-circle p-1 mb-2" href="javascript:void(0);"
                                         data-bs-toggle="pill" data-bs-target="#c-user-7" title="">
-                                        <img class="avatar sm rounded-circle border"
-                                            src="./assets/img/xs/avatar7.jpg" alt="avatar">
+                                        <img class="avatar sm rounded-circle border" src="./assets/img/xs/avatar7.jpg"
+                                            alt="avatar">
                                     </a>
                                     <a class="nav-link rounded-circle p-1 mb-2" href="javascript:void(0);"
                                         data-bs-toggle="pill" data-bs-target="#c-user-3" title="">
-                                        <img class="avatar sm rounded-circle border"
-                                            src="./assets/img/xs/avatar8.jpg" alt="avatar">
+                                        <img class="avatar sm rounded-circle border" src="./assets/img/xs/avatar8.jpg"
+                                            alt="avatar">
                                     </a>
                                     <a class="nav-link rounded-circle p-1 mb-2" href="javascript:void(0);"
                                         data-bs-toggle="pill" data-bs-target="#c-user-3" title="">
-                                        <img class="avatar sm rounded-circle border"
-                                            src="./assets/img/xs/avatar9.jpg" alt="avatar">
+                                        <img class="avatar sm rounded-circle border" src="./assets/img/xs/avatar9.jpg"
+                                            alt="avatar">
                                     </a>
                                     <a class="nav-link rounded-circle p-1 mb-2" href="javascript:void(0);"
                                         data-bs-toggle="pill" data-bs-target="#c-user-1" title="">
-                                        <img class="avatar sm rounded-circle border"
-                                            src="./assets/img/xs/avatar10.jpg" alt="avatar">
+                                        <img class="avatar sm rounded-circle border" src="./assets/img/xs/avatar10.jpg"
+                                            alt="avatar">
                                     </a>
                                     <a class="nav-link rounded-circle p-1 mb-2" href="javascript:void(0);"
                                         data-bs-toggle="pill" data-bs-target="#c-user-1" title="">
-                                        <img class="avatar sm rounded-circle border"
-                                            src="./assets/img/xs/avatar5.jpg" alt="avatar">
+                                        <img class="avatar sm rounded-circle border" src="./assets/img/xs/avatar5.jpg"
+                                            alt="avatar">
                                     </a>
                                 </div>
                                 <div class="tab-content shadow-sm">
@@ -1061,11 +1054,10 @@
                                                     <a class="nav-link p-2 text-secondary d-none d-xl-inline-block"
                                                         href="javascript:void(0);"><i class="fa fa-camera"></i></a>
                                                     <a class="nav-link p-2 me-1 text-secondary d-none d-xl-inline-block"
-                                                        href="javascript:void(0);"><i
-                                                            class="fa fa-video-camera"></i></a>
+                                                        href="javascript:void(0);"><i class="fa fa-video-camera"></i></a>
                                                     <a class="nav-link py-2 px-3 text-muted d-inline-block d-xl-none"
-                                                        data-bs-dismiss="modal" aria-label="Close"
-                                                        href="#"><i class="fa fa-close"></i></a>
+                                                        data-bs-dismiss="modal" aria-label="Close" href="#"><i
+                                                            class="fa fa-close"></i></a>
                                                     <a href="#" class="more-icon dropdown-toggle"
                                                         data-bs-toggle="dropdown" aria-expanded="false"><i
                                                             class="fa fa-ellipsis-h"></i></a>
@@ -1081,16 +1073,14 @@
                                                 </div>
                                             </div>
 
-                                            <div class="card-body custom_scroll"
-                                                style="height: calc(100vh - 141px);">
+                                            <div class="card-body custom_scroll" style="height: calc(100vh - 141px);">
                                                 <ul class="list-unstyled chat-history flex-grow-1">
 
                                                     <li class="mb-3 d-flex flex-row align-items-end">
                                                         <div class="max-width-70">
                                                             <div class="user-info mb-1">
                                                                 <img class="avatar xs rounded-circle me-1"
-                                                                    src="./assets/img/xs/avatar1.jpg"
-                                                                    alt="avatar">
+                                                                    src="./assets/img/xs/avatar1.jpg" alt="avatar">
                                                                 <span class="text-muted small">10:10 AM, Today</span>
                                                             </div>
                                                             <div class="card p-3">
@@ -1105,10 +1095,9 @@
                                                             <ul class="dropdown-menu rounded-4 border-0 shadow">
                                                                 <li><a class="dropdown-item" href="#">Edit</a>
                                                                 </li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Share</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Delete</a></li>
+                                                                <li><a class="dropdown-item" href="#">Share</a></li>
+                                                                <li><a class="dropdown-item" href="#">Delete</a>
+                                                                </li>
                                                             </ul>
                                                         </div>
                                                     </li>
@@ -1130,10 +1119,9 @@
                                                             <ul class="dropdown-menu rounded-4 border-0 shadow">
                                                                 <li><a class="dropdown-item" href="#">Edit</a>
                                                                 </li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Share</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Delete</a></li>
+                                                                <li><a class="dropdown-item" href="#">Share</a></li>
+                                                                <li><a class="dropdown-item" href="#">Delete</a>
+                                                                </li>
                                                             </ul>
                                                         </div>
                                                     </li>
@@ -1142,8 +1130,7 @@
                                                         <div class="max-width-70">
                                                             <div class="user-info mb-1">
                                                                 <img class="avatar xs rounded-circle me-1"
-                                                                    src="./assets/img/xs/avatar1.jpg"
-                                                                    alt="avatar">
+                                                                    src="./assets/img/xs/avatar1.jpg" alt="avatar">
                                                                 <span class="text-muted small">10:10 AM, Today</span>
                                                             </div>
                                                             <div class="card p-3">
@@ -1160,10 +1147,9 @@
                                                             <ul class="dropdown-menu rounded-4 border-0 shadow">
                                                                 <li><a class="dropdown-item" href="#">Edit</a>
                                                                 </li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Share</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Delete</a></li>
+                                                                <li><a class="dropdown-item" href="#">Share</a></li>
+                                                                <li><a class="dropdown-item" href="#">Delete</a>
+                                                                </li>
                                                             </ul>
                                                         </div>
                                                     </li>
@@ -1172,8 +1158,7 @@
                                                         <div class="max-width-70">
                                                             <div class="user-info mb-1">
                                                                 <img class="avatar xs rounded-circle me-1"
-                                                                    src="./assets/img/xs/avatar1.jpg"
-                                                                    alt="avatar">
+                                                                    src="./assets/img/xs/avatar1.jpg" alt="avatar">
                                                                 <span class="text-muted small">10:10 AM, Today</span>
                                                             </div>
                                                             <div class="card p-3">
@@ -1189,10 +1174,9 @@
                                                             <ul class="dropdown-menu rounded-4 border-0 shadow">
                                                                 <li><a class="dropdown-item" href="#">Edit</a>
                                                                 </li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Share</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Delete</a></li>
+                                                                <li><a class="dropdown-item" href="#">Share</a></li>
+                                                                <li><a class="dropdown-item" href="#">Delete</a>
+                                                                </li>
                                                             </ul>
                                                         </div>
                                                     </li>
@@ -1216,10 +1200,9 @@
                                                             <ul class="dropdown-menu rounded-4 border-0 shadow">
                                                                 <li><a class="dropdown-item" href="#">Edit</a>
                                                                 </li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Share</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Delete</a></li>
+                                                                <li><a class="dropdown-item" href="#">Share</a></li>
+                                                                <li><a class="dropdown-item" href="#">Delete</a>
+                                                                </li>
                                                             </ul>
                                                         </div>
                                                     </li>
@@ -1228,19 +1211,16 @@
                                                         <div class="max-width-70">
                                                             <div class="user-info mb-1">
                                                                 <img class="avatar xs rounded-circle me-1"
-                                                                    src="./assets/img/xs/avatar1.jpg"
-                                                                    alt="avatar">
+                                                                    src="./assets/img/xs/avatar1.jpg" alt="avatar">
                                                                 <span class="text-muted small">10:10 AM, Today</span>
                                                             </div>
                                                             <div class="card p-3">
                                                                 <div class="message">
                                                                     <p>Please find attached images</p>
                                                                     <img class="w120 img-thumbnail"
-                                                                        src="./assets/img/gallery/3.jpg"
-                                                                        alt="">
+                                                                        src="./assets/img/gallery/3.jpg" alt="">
                                                                     <img class="w120 img-thumbnail"
-                                                                        src="./assets/img/gallery/4.jpg"
-                                                                        alt="">
+                                                                        src="./assets/img/gallery/4.jpg" alt="">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1252,10 +1232,9 @@
                                                             <ul class="dropdown-menu rounded-4 border-0 shadow">
                                                                 <li><a class="dropdown-item" href="#">Edit</a>
                                                                 </li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Share</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Delete</a></li>
+                                                                <li><a class="dropdown-item" href="#">Share</a></li>
+                                                                <li><a class="dropdown-item" href="#">Delete</a>
+                                                                </li>
                                                             </ul>
                                                         </div>
                                                     </li>
@@ -1278,10 +1257,9 @@
                                                             <ul class="dropdown-menu rounded-4 border-0 shadow">
                                                                 <li><a class="dropdown-item" href="#">Edit</a>
                                                                 </li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Share</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Delete</a></li>
+                                                                <li><a class="dropdown-item" href="#">Share</a></li>
+                                                                <li><a class="dropdown-item" href="#">Delete</a>
+                                                                </li>
                                                             </ul>
                                                         </div>
                                                     </li>
@@ -1315,11 +1293,10 @@
                                                     <a class="nav-link p-2 text-secondary d-none d-xl-inline-block"
                                                         href="javascript:void(0);"><i class="fa fa-camera"></i></a>
                                                     <a class="nav-link p-2 me-1 text-secondary d-none d-xl-inline-block"
-                                                        href="javascript:void(0);"><i
-                                                            class="fa fa-video-camera"></i></a>
+                                                        href="javascript:void(0);"><i class="fa fa-video-camera"></i></a>
                                                     <a class="nav-link py-2 px-3 text-muted d-inline-block d-xl-none"
-                                                        data-bs-dismiss="modal" aria-label="Close"
-                                                        href="#"><i class="fa fa-close"></i></a>
+                                                        data-bs-dismiss="modal" aria-label="Close" href="#"><i
+                                                            class="fa fa-close"></i></a>
                                                     <a href="#" class="more-icon dropdown-toggle"
                                                         data-bs-toggle="dropdown" aria-expanded="false"><i
                                                             class="fa fa-ellipsis-h"></i></a>
@@ -1335,8 +1312,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="card-body custom_scroll"
-                                                style="height: calc(100vh - 141px);">
+                                            <div class="card-body custom_scroll" style="height: calc(100vh - 141px);">
                                                 <ul class="list-unstyled chat-history flex-grow-1">
 
                                                     <li class="mb-3 d-flex flex-row-reverse align-items-end">
@@ -1356,10 +1332,9 @@
                                                             <ul class="dropdown-menu rounded-4 border-0 shadow">
                                                                 <li><a class="dropdown-item" href="#">Edit</a>
                                                                 </li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Share</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Delete</a></li>
+                                                                <li><a class="dropdown-item" href="#">Share</a></li>
+                                                                <li><a class="dropdown-item" href="#">Delete</a>
+                                                                </li>
                                                             </ul>
                                                         </div>
                                                     </li>
@@ -1368,8 +1343,7 @@
                                                         <div class="max-width-70">
                                                             <div class="user-info mb-1">
                                                                 <img class="avatar xs rounded-circle me-1"
-                                                                    src="./assets/img/xs/avatar2.jpg"
-                                                                    alt="avatar">
+                                                                    src="./assets/img/xs/avatar2.jpg" alt="avatar">
                                                                 <span class="text-muted small">10:10 AM, Today</span>
                                                             </div>
                                                             <div class="card p-3">
@@ -1384,10 +1358,10 @@
                                                             <ul class="dropdown-menu rounded-4 border-0 shadow">
                                                                 <li><a class="dropdown-item" href="#">Edit</a>
                                                                 </li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Share</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Delete</a></li>
+                                                                <li><a class="dropdown-item" href="#">Share</a>
+                                                                </li>
+                                                                <li><a class="dropdown-item" href="#">Delete</a>
+                                                                </li>
                                                             </ul>
                                                         </div>
                                                     </li>
@@ -1411,10 +1385,10 @@
                                                             <ul class="dropdown-menu rounded-4 border-0 shadow">
                                                                 <li><a class="dropdown-item" href="#">Edit</a>
                                                                 </li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Share</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Delete</a></li>
+                                                                <li><a class="dropdown-item" href="#">Share</a>
+                                                                </li>
+                                                                <li><a class="dropdown-item" href="#">Delete</a>
+                                                                </li>
                                                             </ul>
                                                         </div>
                                                     </li>
@@ -1423,19 +1397,16 @@
                                                         <div class="max-width-70">
                                                             <div class="user-info mb-1">
                                                                 <img class="avatar xs rounded-circle me-1"
-                                                                    src="./assets/img/xs/avatar2.jpg"
-                                                                    alt="avatar">
+                                                                    src="./assets/img/xs/avatar2.jpg" alt="avatar">
                                                                 <span class="text-muted small">10:10 AM, Today</span>
                                                             </div>
                                                             <div class="card p-3">
                                                                 <div class="message">
                                                                     <p>Please find attached images</p>
                                                                     <img class="w120 img-thumbnail"
-                                                                        src="./assets/img/gallery/1.jpg"
-                                                                        alt="">
+                                                                        src="./assets/img/gallery/1.jpg" alt="">
                                                                     <img class="w120 img-thumbnail"
-                                                                        src="./assets/img/gallery/2.jpg"
-                                                                        alt="">
+                                                                        src="./assets/img/gallery/2.jpg" alt="">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1447,10 +1418,10 @@
                                                             <ul class="dropdown-menu rounded-4 border-0 shadow">
                                                                 <li><a class="dropdown-item" href="#">Edit</a>
                                                                 </li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Share</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Delete</a></li>
+                                                                <li><a class="dropdown-item" href="#">Share</a>
+                                                                </li>
+                                                                <li><a class="dropdown-item" href="#">Delete</a>
+                                                                </li>
                                                             </ul>
                                                         </div>
                                                     </li>
@@ -1473,10 +1444,10 @@
                                                             <ul class="dropdown-menu rounded-4 border-0 shadow">
                                                                 <li><a class="dropdown-item" href="#">Edit</a>
                                                                 </li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Share</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Delete</a></li>
+                                                                <li><a class="dropdown-item" href="#">Share</a>
+                                                                </li>
+                                                                <li><a class="dropdown-item" href="#">Delete</a>
+                                                                </li>
                                                             </ul>
                                                         </div>
                                                     </li>
@@ -1485,8 +1456,7 @@
                                                         <div class="max-width-70">
                                                             <div class="user-info mb-1">
                                                                 <img class="avatar xs rounded-circle me-1"
-                                                                    src="./assets/img/xs/avatar2.jpg"
-                                                                    alt="avatar">
+                                                                    src="./assets/img/xs/avatar2.jpg" alt="avatar">
                                                                 <span class="text-muted small">10:10 AM, Today</span>
                                                             </div>
                                                             <div class="card p-3">
@@ -1503,10 +1473,10 @@
                                                             <ul class="dropdown-menu rounded-4 border-0 shadow">
                                                                 <li><a class="dropdown-item" href="#">Edit</a>
                                                                 </li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Share</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Delete</a></li>
+                                                                <li><a class="dropdown-item" href="#">Share</a>
+                                                                </li>
+                                                                <li><a class="dropdown-item" href="#">Delete</a>
+                                                                </li>
                                                             </ul>
                                                         </div>
                                                     </li>
@@ -1515,8 +1485,7 @@
                                                         <div class="max-width-70">
                                                             <div class="user-info mb-1">
                                                                 <img class="avatar xs rounded-circle me-1"
-                                                                    src="./assets/img/xs/avatar2.jpg"
-                                                                    alt="avatar">
+                                                                    src="./assets/img/xs/avatar2.jpg" alt="avatar">
                                                                 <span class="text-muted small">10:10 AM, Today</span>
                                                             </div>
                                                             <div class="card p-3">
@@ -1532,10 +1501,10 @@
                                                             <ul class="dropdown-menu rounded-4 border-0 shadow">
                                                                 <li><a class="dropdown-item" href="#">Edit</a>
                                                                 </li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Share</a></li>
-                                                                <li><a class="dropdown-item"
-                                                                        href="#">Delete</a></li>
+                                                                <li><a class="dropdown-item" href="#">Share</a>
+                                                                </li>
+                                                                <li><a class="dropdown-item" href="#">Delete</a>
+                                                                </li>
                                                             </ul>
                                                         </div>
                                                     </li>
@@ -1777,8 +1746,7 @@
 
                                         <li class="list-group-item">
                                             <div class="form-check form-switch pageheader-dark-switch mb-1">
-                                                <input class="form-check-input" type="checkbox"
-                                                    id="PageHeader_dark">
+                                                <input class="form-check-input" type="checkbox" id="PageHeader_dark">
                                                 <label class="form-check-label" for="PageHeader_dark">Page Header
                                                     Dark Mode</label>
                                             </div>
@@ -1861,8 +1829,8 @@
                                 </div>
 
                                 <div class="mb-4">
-                                    <a class="btn lift  btn-outline-secondary"
-                                        href="./marketing/index.html">Marketing page</a>
+                                    <a class="btn lift  btn-outline-secondary" href="./marketing/index.html">Marketing
+                                        page</a>
                                     <a class="btn lift  btn-outline-secondary"
                                         href="./onepgae-uikit/onepage.html">Landing page</a>
                                     <a class="btn lift  btn-outline-secondary" href="./onepgae-uikit/index.html">One
@@ -1886,7 +1854,7 @@
                 <script src="{{ url('/') }}/assets/js/bundle/apexcharts.bundle.js"></script>
 
                 <script src="{{ url('/') }}/assets/js/bundle/apexcharts.bundle.js"></script> --}}
-</body>
+                </body>
 
-</html>
-@endsection
+                </html>
+            @endsection

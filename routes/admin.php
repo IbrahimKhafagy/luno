@@ -2,10 +2,13 @@
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\HomeController;
-use App\Http\Controllers\ChangePasswordController;
+// use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\admin\ChangePasswordController;
 use App\Http\Controllers\admin\productController ;
+use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\CategoryController as ControllersCategoryController;
+use App\Models\category;
 // use App\Http\Controllers\productController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -32,37 +35,41 @@ Route::group(
             Route::get('/', function () {
                 return view('admin.auth.login');
             })->name('login');
+
             Route::get('register',[AuthController::class,'register'])->name('register');
-
             Route::post('register',[AuthController::class,'registerSave'])->name('register.save');
-
             Route::post('/',[AuthController::class,'loginAction'])->name('login.action');
 
             Route::get('index', [HomeController::class, 'index'])->name('index')->middleware('auth');
-
             Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
             Route::get('profile',[HomeController::class,'profile'])->name('profile');
+            Route::post('update-profile',[AuthController::class,'update'])->name('update');
 
-            Route::post('update',[AuthController::class,'update'])->name('update');
 
-            Route::get('brands/create',[BrandController::class,'index'])->name('create-brand');
+
+            Route::post('change-password', [ChangePasswordController::class, 'index']);
+            Route::post('change', [ChangePasswordController::class, 'changePassword']);
+
+
+
             Route::get('brands',[BrandController::class,'show'])->name('show');
-
-            Route::get('slider',[SliderController::class,'index'])->name('slider');
-
-
-            Route::get('change-password', [ChangePasswordController::class, 'index']);
-            Route::post('change-password', [ChangePasswordController::class, 'changePassword']);
-
+            Route::get('brands/create',[BrandController::class,'index'])->name('create-brand');
             Route::post('/create/brands',[BrandController::class,'create'])->name('create.brand');
             Route::get('/edit/brand/{id}',[BrandController::class,'edit'])->name('edit.brand');
-            Route::get('destroy/brand/{id}',[BrandController::class,'destroy'])->name('destroy.brand');
+            Route::POST('delete',[BrandController::class,'delete'])->name('delete.brand');
+            Route::post('/update-brand',[BrandController::class,'update'])->name('update-brand');
 
 
 
-            // Route::post('/edit/{id}',[BrandController::class,'edit'])->name('edit');
-            Route::post('/update/{id}',[BrandController::class,'update'])->name('update-brand');
+
+            Route::get('/create/slider',[SliderController::class,'index'])->name('create-slider');
+            Route::post('silder',[SliderController::class,'create'])->name('create.slider');
+            Route::get('/edit/slider/{id}',[SliderController::class,'edit'])->name('edit.slider');
+            Route::get('destroy/slider/{id}',[SliderController::class,'destroy'])->name('destroy.slider');
+            // Route::POST('delete',[SliderController::class,'delete'])->name('delete.slider');
+            Route::post('/update-slider',[SliderController::class,'update'])->name('update-slider');
+
+
 
 
 
@@ -71,8 +78,8 @@ Route::group(
             Route::post('store',[CategoryController::class,'store'])->name('store.category');
 
             Route::get('/edit/category/{id}',[CategoryController::class,'edit'])->name('edit.category');
-            Route::get('destroy/category/{id}',[CategoryController::class,'destroy'])->name('destroy.category');
-            Route::post('/category/{id}',[CategoryController::class,'update'])->name('update-category');
+            Route::POST('delete/category',[CategoryController::class,'delete'])->name('delete.category');
+            Route::post('/category',[CategoryController::class,'update'])->name('update-category');
 
 
 
@@ -84,11 +91,19 @@ Route::group(
 
             Route::get('edit/product/{id}',[productController::class,'edit'])->name('edit.product');
             Route::get('destroy/product/{id}',[productController::class,'destroy'])->name('destroy.product');
-            Route::post('/product/{id}',[productController::class,'update'])->name('update-product');
+            Route::post('/update-product',[productController::class,'update'])->name('update-product');
 
 
+            
 
+            // Routes of DataTables
             Route::get('brands/all',[BrandController::class,'getUsersdatatable'])->name('brands.all');
+            Route::get('category/all',[CategoryController::class,'getUsersdatatable'])->name('category.all');
+            Route::get('product/all',[productController::class,'getUsersdatatable'])->name('product.all');
+
+
+
+
         });
 
 

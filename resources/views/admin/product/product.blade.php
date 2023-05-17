@@ -28,7 +28,7 @@ product
                      @foreach ($products as $product)
 
                         <?php $i++ ?>
-                        <tr>
+                        {{-- <tr>
                         <td>{{$i}}</td>
                         <td>{{$product->name}}</td>
                         <td>{{$product->description}}</td>
@@ -52,7 +52,7 @@ product
 
 
 
-                    </tr>
+                    </tr> --}}
 
                     @endforeach
                 </tbody>
@@ -62,44 +62,60 @@ product
 
 
 @endsection
-@section('js')
 
+@push('javascripts')
 
-{{-- <script>
-$(document).on('click','.deleteRecord',function(e){
-    e.preventDefult();
+<script type="text/javascript">
+    $(function() {
+        var table = $('#table_id').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ Route('product.all') }}",
+            columns: [{
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'name',
+                    name: 'name'
+                },
+                {
+                    data: 'description',
+                    name: 'description'
+                },
+                {
+                    data: 'category_id',
+                    name: 'category_id'
+                },
+                {
+                    data: 'price',
+                    name: 'price'
+                },
+                {
+                    data: 'have_offfer',
+                    name: 'have_offfer'
+                },
+                {
+                    data: 'finally_price',
+                    name: 'finally_price'
+                },
+                {
+                    data: 'image',
+                    name: 'image'
+                }
+                ,{
+                    data: 'process',
+                    name: 'process'
+                }
 
-
-    var data_id = $('.deleteRecord').atrr('data_id');
-
-
-    $.ajax(
-    {
-        type:'Post',
-        url:{{route('destroy.product')}},
-        data: {
-            "_token": "{{ csrf_token()}}",
-            "id": data_id,
-        },
-        success: function (data){
-
-
-            console.log("it Works");
-        }
-    });
-
-});
-
-</script> --}}
-
-
-{{-- <script>
-    $(document).ready(function(){
-
-        $('#table_id4').dataTable({
-            processing:true,
+            ]
         });
     });
-</script> --}}
+    $('#table_id tbody').on('click', '#deleteBtn', function(argument) {
+        var id = $(this).attr("data-id");
+        console.log(id);
+        $('#deletemodal #id').val(id);
+    })
+</script>
 
-@endsection
+@endpush()
