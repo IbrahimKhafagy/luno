@@ -49,14 +49,14 @@
                 <path class="var(--secondary-color)" fill-rule="evenodd"
                   d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
               </svg>
-              <span class="ms-2">Brands </span>
+              <span class="ms-2">Brands <span class="badge bg-danger" > {{App\Models\brand::count()}}</span></span>
             </span>
               <span class="arrow fa fa-angle-right ms-auto text-end"></span>
             </a>
 
             <ul class="sub-menu collapse show" id="my_dashboard">
               <li><a class="ms-link" href="{{route('create-brand')}}">Add brand</a></li>
-              <li><a class="ms-link" href="{{route('show')}}">brands<span> /{{App\Models\Brand::count()}}</span></a> </li>
+              <li><a class="ms-link" href="{{route('show')}}">brands </a> </li>
               {{-- <li><a class="ms-link" href="index-iot.html">IOT</a></li> --}}
             </ul>
           </li>
@@ -70,13 +70,13 @@
                 <path class="fill-secondary"
                   d="M8.5 11C8.5 11 8 11 8 10.5C8 10 8.5 8.5 11 8.5C13.5 8.5 14 10 14 10.5C14 11 13.5 11 13.5 11H8.5ZM11 8C11.3978 8 11.7794 7.84196 12.0607 7.56066C12.342 7.27936 12.5 6.89782 12.5 6.5C12.5 6.10218 12.342 5.72064 12.0607 5.43934C11.7794 5.15804 11.3978 5 11 5C10.6022 5 10.2206 5.15804 9.93934 5.43934C9.65804 5.72064 9.5 6.10218 9.5 6.5C9.5 6.89782 9.65804 7.27936 9.93934 7.56066C10.2206 7.84196 10.6022 8 11 8V8Z" />
               </svg>
-              <span class="ms-2">Slider</span>
+              <span class="ms-2">Slider <span class="badge bg-danger" > {{App\Models\slider::count()}}</span></span>
               <span class="arrow fa fa-angle-right ms-auto text-end"></span>
             </a>
 
             <ul class="sub-menu collapse" id="menu-Account">
               <li><a class="ms-link" href="{{route('create-slider')}}"> Add Slider</a></li>
-              <li><a class="ms-link" href="account-invoices.html">Sliders</a></li>
+              <li><a class="ms-link" href="{{route('show-slider')}}">Sliders</a></li>
               {{-- <li><a class="ms-link" href="account-create-invoice.html">Create Invoices</a></li>
               <li><a class="ms-link" href="account-billing.html">Billing</a></li> --}}
             </ul>
@@ -90,13 +90,13 @@
                 <path fill-rule="evenodd"
                   d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z" />
               </svg>
-              <span class="ms-2">category</span>
+              <span class="ms-2">category <span class="badge bg-danger" > {{App\Models\Category::count()}}</span> </span>
               <span class="arrow fa fa-angle-right ms-auto text-end"></span>
             </a>
 
             <ul class="sub-menu collapse" id="menu_dashboard">
               <li><a class="ms-link" href="{{route('create-category')}}">Add category</a></li>
-              <li><a class="ms-link" href="{{route('category')}}">categories<span> /{{App\Models\Category::count()}}</span></a></li>
+              <li><a class="ms-link" href="{{route('category')}}">categories</a></li>
               {{-- <li><a class="ms-link" href="./ecommerce/index.html"></a></li> --}}
               {{-- <li><a class="ms-link" href="./event/index.html">Event Management</a></li>
               <li><a class="ms-link" href="./fitness/index.html">Fitness Analytics</a></li>
@@ -119,13 +119,13 @@
                   d="M5.5 2A3.5 3.5 0 0 0 2 5.5v5A3.5 3.5 0 0 0 5.5 14h5a3.5 3.5 0 0 0 3.5-3.5V8a.5.5 0 0 1 1 0v2.5a4.5 4.5 0 0 1-4.5 4.5h-5A4.5 4.5 0 0 1 1 10.5v-5A4.5 4.5 0 0 1 5.5 1H8a.5.5 0 0 1 0 1H5.5z" />
                 <path class="fill-secondary" d="M16 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
               </svg>
-              <span class="ms-2">products</span>
+              <span class="ms-2">products <span class="badge bg-danger" > {{App\Models\product::count()}}</span></span>
               <span class="arrow fa fa-angle-right ms-auto text-end"></span>
             </a>
 
             <ul class="sub-menu collapse" id="menu-Applications">
               <li><a class="ms-link" href="{{route('create-product')}}">Add product</a></li>
-               <li><a class="ms-link" href="{{route('product')}}">products<span> /{{App\Models\product::count()}}</span> </a></li>
+               <li><a class="ms-link" href="{{route('product')}}">products</a></li>
               {{-- <li><a class="ms-link" href="app-email.html">Email App</a></li> --}}
             </ul>
           </li>

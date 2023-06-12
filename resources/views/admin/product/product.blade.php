@@ -1,13 +1,13 @@
 @extends('admin/layouts/master')
 
 @section('title')
-product
+Products
 @endsection
 
 @section('content')
 
-<span class="fieldset-tile text-muted bg-body" > All Brands</span>
-<div class="card">
+<span class="fieldset-tile text-muted bg-body" >All Products</span>
+<div class="">
     <div class="card-body">
             <table id="table_id" class="table key-buttons text-md-nowrap"data-page-length='50'>
                 <thead>
@@ -15,12 +15,14 @@ product
                         <th class="border-bottom-0">#</th>
                         <th class="border-bottom-0">Title</th>
                         <th class="border-bottom-0">Description</th>
-                        <th class="border-bottom-0">category ID</th>
+                        <th class="border-bottom-0">cat_ID</th>
                         <th class="border-bottom-0">Price</th>
                         <th class="border-bottom-0">Discount</th>
-                        <th class="border-bottom-0">finally price</th>
+                        <th class="border-bottom-0">type</th>
+                        <th class="border-bottom-0">value</th>
+                        <th class="border-bottom-0">price</th>
                         <th class="border-bottom-0">Photo</th>
-                        <th class="border-bottom-0">operations</th>
+                        <th class="border-bottom-0">process</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -96,6 +98,14 @@ product
                     name: 'have_offfer'
                 },
                 {
+                    data: 'offer_type',
+                    name: 'offer_type'
+                },
+                {
+                    data: 'offer_value',
+                    name: 'offer_value'
+                },
+                {
                     data: 'finally_price',
                     name: 'finally_price'
                 },
@@ -119,3 +129,31 @@ product
 </script>
 
 @endpush()
+@section('js')
+    <script>
+        $(document).on('click', '.delete_btn', function(e) {
+            e.preventDefault();
+
+            var data_id = $(this).attr('product_id')
+            // alert(data_id);
+
+            if (confirm("Are you sure you want to delete this item?")) {
+                $.ajax({
+                    type: "POST",
+                    url: "{{route('destroy.product')}}",
+                    data: {
+                        '_token': "{{ csrf_token() }}",
+                        'id':data_id
+                    },
+                    success: function(response) {
+                        swal("Good job!", "deleted succsessfuly!", "success");
+                        $('#table_id').DataTable().ajax.reload();
+                                        },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        swal("Error!", errorText, "error");
+                    }
+                });
+            }
+        });
+    </script>
+@endsection

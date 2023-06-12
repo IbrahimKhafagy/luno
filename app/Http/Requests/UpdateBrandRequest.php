@@ -24,8 +24,20 @@ class UpdateBrandRequest extends FormRequest
     public function rules()
     {
         return [
-
-           
+            'name:ar' => 'required|unique:brand_translations,name',
+            'name:en' => 'required|unique:brand_translations,name',
+            'image' => 'required|mimes:jpg,png',
         ];
     }
+    public function messages()
+    {
+        return[
+            'name:en.unique'=>'This name already exists',
+            'name:ar.unique'=>'هذا الاسم موجود بالفعل',
+            'name:en.required'=>'name is required',
+            'name:ar.required'=>'يجب ادخال الاسم',
+        ];
+    }
+
 }
+

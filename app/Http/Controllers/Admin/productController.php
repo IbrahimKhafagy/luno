@@ -46,7 +46,7 @@ class productController extends Controller
     public function store(ProductRequest $request)
     {
 // dd($request->all());
-        $data = $request->only('name:ar', 'name:en', 'description:ar', 'description:en', 'category_id','image','price','have_offfer','finally_price');
+        $data = $request->only('name:ar', 'name:en', 'description:ar', 'description:en','category_id','parent_id','image','price','have_offfer','offer_type','offer_value','finally_price');
         if ($request->hasFile('image')) {
             $destination = 'public/images/products';
             $image = $request->file('image');
@@ -95,8 +95,9 @@ class productController extends Controller
     public function edit($id)
     {
         $product = product::find($id);
+        $categories = Category::all();
 
-        return view('admin.product/edit-product',compact('product'));
+        return view('admin.product/edit-product',compact('product','categories'));
     }
 
     /**
@@ -116,7 +117,7 @@ class productController extends Controller
                 'msg' => 'هذ العرض غير موجود',
             ]);
 
-        $data = $request->only('name:ar','name:en','description:en','description:ar','image','price','have_offfer','finally_price');
+        $data = $request->only('name:ar','name:en','description:en','description:ar','category_id','parent_id','image','price','have_offfer','offer_type','offer_value','finally_price');
         if($request->hasFile('image')){
             $destination ='public/images/products';
             $image = $request->file('image');
@@ -138,13 +139,16 @@ class productController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $product = product::find($id);
-        $product->delete();
-        // return response('Post deleted successfully.', 200);
-        // session()->flash('destroy', 'deleted sucssesfuly');
-        return redirect()->back()->with('errro','deleted sucssesfuly');
+        {
+            $product = product::find($request->id);
+            if ($product) {
+                $product->delete();
+                return response()->json(['success' => true]);
+            }
+            return response()->json(['success' => false]);
+        }
     }
 
 
@@ -159,7 +163,7 @@ class productController extends Controller
         ->addIndexColumn()
             ->addColumn('process', function ($row) {
                 $btn1='<a href="'. route('edit.product',$row->id) .'" class="edit btn btn-success btn-sm" ><i class="fa fa-edit"></i></a>';
-                $btn2='<a href="'. route('destroy.product',$row->id) .'" class="edit btn btn-danger btn-sm"  data-toggle="modal" data-target="#deletemodal" ><i class="fa fa-trash"></i></a>';
+                $btn2='<a  class="edit btn btn-danger btn-sm delete_btn"  data-toggle="modal" product_id=' . $row->id . ' data-target="#deletemodal" ><i class="fa fa-trash"></i></a>';
             return $btn1 ."  ". $btn2;
             })
             ->addColumn('image', function ($row) {
@@ -171,7 +175,17 @@ class productController extends Controller
             ->addColumn('have_offfer', function ($row) {
                 return  $row->have_offfer == 0 ? 'no' : 'yes';
             })
-            ->rawColumns(['image'=>'image','process'=>'process','category_id'=>'category_id','have_offfer'=>'have_offfer'])
+            ->addColumn('offer_type', function ($row) {
+                return  $row->offer_type == 'percentage' ? 'percentage' : 'value';
+            })
+            ->addColumn('offer_value', function ($row) {
+                $offerValue = $row->offer_value;
+                if ($row->offer_type == 'percentage') {
+                    $offerValue .= '%';
+                }
+                return $offerValue;
+            })
+            ->rawColumns(['image'=>'image','process'=>'process','category_id'=>'category_id','have_offfer'=>'have_offfer','offer_type'=>'offer_type','offer_value'=>'offer_value'])
             ->toJson();
         }
 

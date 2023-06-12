@@ -15,7 +15,7 @@ class product extends Model implements TranslatableContract
     protected $table = 'product';
 
     public $translatedAttributes = ['name','description'];
-    protected $fillable = ['name','description','image','category_id','price','have_offfer','finally_price'];
+    protected $fillable = ['name','description','image','category_id','price','have_offfer','offer_type','offer_value','finally_price'];
 
 
     public function category()

@@ -24,14 +24,28 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name:ar' => 'required',
-            'name:en' => 'required',
-            'description:ar' => 'required',
-            'description:en' => 'required',
-            'category_id' => 'required',
+            'name:ar' => 'required|unique:product_translations,name',
+            'name:en' => 'required|unique:product_translations,name',
+            'description:ar' => 'required|unique:product_translations,description',
+            'description:en' => 'required|unique:product_translations,description',
             'image' => 'nullable|mimes:jpg,png',
             'price' => 'required',
             'have_offfer' => 'required'
         ];
     }
+
+    public function messages()
+    {
+        return[
+            'name:ar.unique'=>'هذا الاسم موجود بالفعل',
+            'name:ar.required'=>'يجب ادخال الاسم',
+            'description:ar.unique'=>'هذا الوصف موجود بالفعل',
+            'description:ar.required'=>'يجب ادخال الاسم',
+            'name:en.unique'=>'This name already exists',
+            'name:en.required'=>' This name is required',
+            'description:en.unique'=>'This description already exists',
+            'description:en.required'=>'This description is required',
+        ];
+    }
+
 }

@@ -40,20 +40,21 @@
                         <div>
                             <div class="col-md-6">
                                 <label class="form-label">category ID: </label>
-                                <select name="category_id" class="form-control show-tick ms">
-                                    <option value="">Select Category</option>
+                                <select id="cat_id" name="category_id" class="form-control show-tick ms">
                                     @foreach ($categories as $item)
                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
+
+                            <div class="col-md-6 d-none" id="child_cat_div">
+                                <label class="form-label">Sup Category </label>
+                                <select id="child_cat_id" name="category_id" class="form-control show-tick ms">
+                                </select>
+                            </div>
                         </div>
                         <div>
                             <div class="col-md-6">
-                                {{-- <label class="form-label">Photo :</label>
-                            <input type="file" name="image" class="form-control" rows="5" cols="30"
-                                ></textarea> --}}
-
 
                                 <div class="card">
                                     <div class="card-body">
@@ -61,10 +62,7 @@
                                         <input type="file" name="image" class="dropify">
                                     </div>
                                 </div>
-
                             </div>
-
-
                             <div class="col-6">
                                 <label class="form-label">price</label>
                                 <input type="text" name="price" id="price" data-validation="required"
@@ -105,8 +103,8 @@
                                 @enderror
                                 <div class="col-6 mt-3">
                                     <label class="form-label">offer value</label>
-                                    <input type="text" name="offer_value" value="0" id="offer_value"
-                                        data-validation="required" data-validation-required="required"
+                                    <input type="text" name="offer_value" id="offer_value" data-validation="required"
+                                        data-validation-required="required"
                                         class="form-control form-control-lg @error('offer_value') is-invalid @enderror"
                                         placeholder="...">
                                 </div>
@@ -127,45 +125,6 @@
                             <p id="final_price"></p>
 
 
-
-
-
-
-                            {{-- <div class="col-md-3">
-                            <label class="form-label">Price:</label>
-                            <input type="text"  data-validation="required" data-validation-required="required" id="price" name="price" class="form-control" rows="5" cols="30"
-                                ></textarea>
-                        </div>
-                        <p></p>
-                        <div class="col-md-3">
-                            <label class="form-label">have offer</label>
-                            <select name="have_offfer" id="travel" class="form-control show-tick ms" onChange=showHide() >
-
-                                ></textarea>
-                                <option value="1">yes</option>
-                                <option value="0">no</option>
-                            </select>
-                        </div>
-                        <p></p>
-                        <div class="col-md-3"  name="hidden-panel" id="hidden-panel">
-                            <label class="form-label">offer type</label>
-                            <select name="" class="form-control show-tick ms"
-
-                                ></textarea>
-                                <option value="">percentage</option>
-                                <option value="">value</option>
-                            </select>
-
-                        <p></p>
-
-
-                        </div>
-                    </div>
-                        <div class="col-md-3">
-                        <label class="form-label">Finally price</label>
-                        <input type="text" data-validation="required" data-validation-required="required" id="finally_price" name="finally_price" class="form-control" rows="5" cols="30">
-                    </div> --}}
-                            {{-- </div> --}}
                             <div class="col-12">
                                 <button type="submit" class="btn btn-primary">Create</button>
                             </div>
@@ -177,6 +136,41 @@
 
 
         @section('js')
+            <script>
+            $('#cat_id').change(function(){
+            var cat_id =$(this).val();
+            if(cat_id != null){
+                $.ajax({
+                    url:"/category/"+cat_id+"/child",
+                    type:"POST",
+                    data:{
+                        _token:"{{ csrf_token() }}",
+                        cat_id:cat_id,
+                    },
+                    success: function(response) {
+                        if(response.status){
+                            var html_option ="<option value=''> Sup Category </option>";
+                            $('#child_cat_div').removeClass('d-none');
+                            $.each(response.data,function(id,name){
+
+                                html_option +="<option value='"+id+"'>"+name+"</option>"
+                            });
+
+                        }else{
+                            $('#child_cat_div').addClass('d-none');
+                        }
+                        $('#child_cat_id').html(html_option);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        swal("Error!", errorText, "error");
+                    }
+                })
+            }
+
+
+            });
+            </script>
+
             <script type="text/javascript">
                 $.validate({
                     form: 'form'
@@ -281,7 +275,9 @@
                     }
                     finalPriceParagraph.textContent = "Final Price: " + finalPrice;
                     $('#final_price2').val(finalPrice);
-                    $("#have_offer").change(function() {calculateFinalPrice();});
+                    $("#have_offer").change(function() {
+                        calculateFinalPrice();
+                    });
                 }
                 offerTypeSelect.addEventListener("change", calculateFinalPrice);
                 priceInput.addEventListener("input", calculateFinalPrice);
@@ -325,6 +321,6 @@
                             // }
                             // })
 
-                            <
-                            script >
+
+                            <script >
                             @endsection

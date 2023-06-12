@@ -146,4 +146,21 @@ class CategoryController extends Controller
         }
         return response()->json(['success' => false]);
     }
+
+
+    public function getChildByParentId (Request $request, $id){
+
+        $category =category::find($request->id);
+       if($category){
+
+        $child_id =category::getChildByParentId($request->id);
+        if(count($child_id)<=0){
+            return response()->json(['status'=>false,'data'=>null,'msg'=>'']);
+        }
+        return response()->json(['status'=>true,'data'=>$child_id,'msg'=>'']);
+       }else{
+        return response()->json(['status'=>false,'data'=>null,'msg'=>'']);
+       }
+
+    }
 }

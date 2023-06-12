@@ -2,7 +2,7 @@
 
 
 @section('title')
-    Brands
+    Sliders
 @endsection
 
 
@@ -16,7 +16,7 @@
             </button>
         </div>
     @endif
-    <span class="fieldset-tile text-muted bg-body"> All Brands</span>
+    <span class="fieldset-tile text-muted bg-body"> All Sliders</span>
 
     <div class="card">
         <div class="card-body">
@@ -25,6 +25,7 @@
                     <tr>
                         <th class="border-bottom-0">#</th>
                         <th class="border-bottom-0">Title</th>
+                        <th class="border-bottom-0">Description</th>
                         <th class="border-bottom-0">Photo</th>
                         <th class="border-bottom-0">process</th>
 
@@ -32,10 +33,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $i = 0; ?>
+                    {{-- <?php $i = 0; ?>
                     @foreach ($brands as $x)
-                        <?php $i++; ?>
-                        {{-- <tr>
+                        <?php $i++; ?> --}}
+                    {{-- <tr>
                         <td>{{$i}}</td>
                         <td>{{$x->name}}</td>
                         <td>
@@ -55,13 +56,41 @@
 
 
                     </tr> --}}
-                    @endforeach
+                    {{-- @endforeach --}}
                 </tbody>
             </table>
         </div>
     </div>
-@endsection
 
+
+
+    {{-- Modal  --}}
+    <div>
+        <div>
+            <div>
+                <div class="modal fade editmodal" id="CreateEvent" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                        <div class="modal-content text-start">
+                            <div class="modal-body custom_scroll p-lg-5">
+                                <button type="button" class="btn-close position-absolute top-0 end-0 mt-3 me-3"
+                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                <h4 class="modal-title">Edit Slider</h4>
+                                <p class="text-muted"></p>
+                                <hr>
+                                <div class="card-body">
+                                    <div id="error"></div>
+                                    <div id="editform">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
 
 @push('javascripts')
     <script type="text/javascript">
@@ -69,7 +98,7 @@
             var table = $('#table_id').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ Route('brands.all') }}",
+                ajax: "{{ route('sliders.all') }}",
                 columns: [{
                         data: 'id',
                         name: 'id'
@@ -79,6 +108,10 @@
                         name: 'name'
                     },
                     {
+                        data: 'description',
+                        name: 'description'
+                    },
+                    {
                         data: 'image',
                         name: 'image'
                     },
@@ -86,7 +119,6 @@
                         data: 'process',
                         name: 'process'
                     }
-
                 ]
             });
         });
@@ -100,24 +132,48 @@
 
 @section('js')
     <script>
+        $(document).ready(function() {
+            $(document).on('click', '.edit_btn', function(e) {
+                e.preventDefault();
+                var slider_id = $(this).attr('value');
+                // alert(table_id);
+                $('#editmodal').modal('show');
+                $.ajax({
+                    type: "GET",
+                    url: "/edit-slider/" + slider_id,
+                    success: function(response) {
+                        $("body #editform").html(response.html);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.log(textStatus, errorThrown);
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
+
+    <script>
         $(document).on('click', '.delete_btn', function(e) {
             e.preventDefault();
 
-            var data_id = $(this).attr('brand_id')
+            var data_id = $(this).attr('slider_id')
             // alert(data_id);
 
             if (confirm("Are you sure you want to delete this item?")) {
                 $.ajax({
                     type: "POST",
-                    url: "{{route('delete.brand')}}",
+                    url: "{{ route('delete.slider') }}",
                     data: {
                         '_token': "{{ csrf_token() }}",
-                        'id':data_id
+                        'id': data_id
                     },
                     success: function(response) {
                         swal("Good job!", "deleted succsessfuly!", "success");
                         $('#table_id').DataTable().ajax.reload();
-                                        },
+                    },
                     error: function(jqXHR, textStatus, errorThrown) {
                         swal("Error!", errorText, "error");
                     }
@@ -125,4 +181,7 @@
             }
         });
     </script>
+
+
+
 @endsection

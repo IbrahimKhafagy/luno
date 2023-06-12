@@ -2,14 +2,14 @@
 
 
 @section('title')
- category
+ Categories
 @endsection
 
 
 
 @section('content')
 
-<span class="fieldset-tile text-muted bg-body" > All Brands</span>
+<span class="fieldset-tile text-muted bg-body" > All Categories</span>
 <div class="card">
     <div class="card-body">
             <table id="table_id" class="table key-buttons text-md-nowrap"data-page-length='50'>

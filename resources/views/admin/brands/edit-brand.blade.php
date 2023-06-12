@@ -30,6 +30,7 @@
                         @csrf
 
                         <input type="text" name="brand_id" value={{ $brands->id }} style="display : none;" required>
+                        
                         {{-- action="{{ route('update-brand',$brands->id) }}" --}}
                         {{-- <div class="col-md-3">
                         <label class="form-label">Title en: </label>

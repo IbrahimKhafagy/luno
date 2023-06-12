@@ -120,9 +120,29 @@
                                 <h6 class="border-top pt-2 mt-2 mb-3">Current Password</h6>
 
 
+                                @if (session('message'))
+                                    <h5 class="alert alert-success mb-2">{{ session('message') }}</h5>
+                                @endif
 
-                                <form action="{{ url('change-password') }}" method="POST" enctype="multipart/form-data">
+
+
+
+                                @if ($errors->any())
+                                <ul class="alert alert-danger">
+                                    @foreach ($errors->all() as $error)
+                                    <li class="text-danger">{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                                @endif
+
+
+
+
+                                <form action="{{ route('change-password') }}" method="POST">
                                     @csrf
+
+
+
 
 
                                     @foreach ($errors->all() as $error)
@@ -175,8 +195,7 @@
                                     </form> --}}
 
                                         <div class="mb-3">
-                                            <input type="password"
-                                                name="current_password"
+                                            <input type="password" name="current_password"
                                                 class="form-control form-control-lg @error('current_password')is-invalid @enderror"
                                                 placeholder="Current Password">
                                         </div>
@@ -195,7 +214,7 @@
                                             <input type="password" name="password_confirmation"
                                                 class="form-control form-control-lg" placeholder="Confirm New Password">
 
-                                            <span class="text-muted small">Minimum 8 characters</span>
+                                            <span class="text-muted small">Minimum 6 characters</span>
                                         </div>
                                     </div>
                             </div>

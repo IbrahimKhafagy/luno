@@ -29,9 +29,6 @@ Route::group(
         'prefix' => LaravelLocalization::setLocale(),
         'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
     ], function(){
-        // Route::get('/', function () {
-        //     return view('admin.index');
-
             Route::get('/', function () {
                 return view('admin.auth.login');
             })->name('login');
@@ -47,8 +44,8 @@ Route::group(
 
 
 
-            Route::post('change-password', [ChangePasswordController::class, 'index']);
-            Route::post('change', [ChangePasswordController::class, 'changePassword']);
+            Route::post('show', [ChangePasswordController::class, 'index']);
+            Route::post('change', [ChangePasswordController::class, 'changePassword'])->name('change-password');
 
 
 
@@ -64,10 +61,10 @@ Route::group(
 
             Route::get('/create/slider',[SliderController::class,'index'])->name('create-slider');
             Route::post('silder',[SliderController::class,'create'])->name('create.slider');
-            Route::get('/edit/slider/{id}',[SliderController::class,'edit'])->name('edit.slider');
-            Route::get('destroy/slider/{id}',[SliderController::class,'destroy'])->name('destroy.slider');
-            // Route::POST('delete',[SliderController::class,'delete'])->name('delete.slider');
-            Route::post('/update-slider',[SliderController::class,'update'])->name('update-slider');
+            Route::get('show/silder',[SliderController::class,'show'])->name('show-slider');
+            Route::get('/edit-slider/{id}',[SliderController::class,'edit'])->name('edit-slider');
+            Route::POST('delete/slider',[SliderController::class,'delete'])->name('delete.slider');
+            Route::post('update/slider',[SliderController::class,'update'])->name('update-slider');
 
 
 
@@ -82,6 +79,7 @@ Route::group(
             Route::post('/category',[CategoryController::class,'update'])->name('update-category');
 
 
+            Route::post('/category/{id}/child',[CategoryController::class,'getChildByParentId']);
 
 
 
@@ -90,14 +88,15 @@ Route::group(
             Route::post('store/product',[productController::class,'store'])->name('store.product');
 
             Route::get('edit/product/{id}',[productController::class,'edit'])->name('edit.product');
-            Route::get('destroy/product/{id}',[productController::class,'destroy'])->name('destroy.product');
+            Route::POST('destroy/product',[productController::class,'destroy'])->name('destroy.product');
             Route::post('/update-product',[productController::class,'update'])->name('update-product');
 
 
-            
+
 
             // Routes of DataTables
             Route::get('brands/all',[BrandController::class,'getUsersdatatable'])->name('brands.all');
+            Route::get('sliders/all',[SliderController::class,'getUsersdatatable'])->name('sliders.all');
             Route::get('category/all',[CategoryController::class,'getUsersdatatable'])->name('category.all');
             Route::get('product/all',[productController::class,'getUsersdatatable'])->name('product.all');
 

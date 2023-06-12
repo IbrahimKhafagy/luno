@@ -23,8 +23,25 @@ class UpdateProductRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            
+        return[
+            'name:ar' => 'required',
+            'name:en' => 'required',
+            'description:ar' => 'required',
+            'description:en' => 'required',
+            'category_id' => 'nullable',
+            'image' => 'nullable|mimes:jpg,png',
+            'price' => 'required',
+            'have_offfer' => 'required'
+        ];
+    }
+
+    public function messages()
+    {
+        return[
+            'name:ar.required'=>'يجب ادخال الاسم',
+            'description:ar.required'=>'يجب ادخال الاسم',
+            'name:en.required'=>' This name is required',
+            'description:en.required'=>'This description is required',
         ];
     }
 }
